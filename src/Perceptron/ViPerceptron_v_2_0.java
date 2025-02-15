@@ -38,6 +38,7 @@ public class ViPerceptron_v_2_0 extends JFrame {
             repaint();// 触发界面重绘
             trainCount++;
 
+
             long duration = System.currentTimeMillis() - startTime;
             trainButton.setText("训练" + trainCount + "次");
             showTrainingComplete(duration);  // 显示完成提示
