@@ -3,7 +3,7 @@ package FileEncryption;
 import java.awt.*;
 import javax.swing.*;
 
-public class fileEncDec_v2_0 {
+public class fileEncDec_v2_0_test {
 
     FileEncDecListener el=new FileEncDecListener();
 
@@ -44,3 +44,5 @@ public class fileEncDec_v2_0 {
         fe.showEncDecUI();
     }
 }
+
+

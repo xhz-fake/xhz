@@ -1,20 +1,20 @@
 package FileEncryption;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
 
-public class FileEncDncListener implements ActionListener {
+public class FileEncDecListener_test  implements ActionListener {
     JTextField jtTarget;
     JTextField jtDeposit;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String ac = e.getActionCommand();
-        String pathTarget = jtTarget.getText();
-        String pathDeposit = jtDeposit.getText();
+        String pathTarget = jtTarget.getText();//////////
+        String pathDeposit = jtDeposit.getText();//////////
         switch (ac) {
             case "加密":
                 encFile(pathTarget, pathDeposit);
@@ -30,9 +30,8 @@ public class FileEncDncListener implements ActionListener {
             FileInputStream fins = new FileInputStream(src);
             FileOutputStream fous = new FileOutputStream(dest);
             int t = fins.read();
-            while (t != -1) { //加密n=52,e=3
-                BigDecimal c = new BigDecimal(t).pow(3).remainder(new BigDecimal(51));
-                t = c.intValue();
+            while (t != -1) {
+                t+=10;
                 fous.write(t);
                 t = fins.read();
             }
@@ -51,8 +50,7 @@ public class FileEncDncListener implements ActionListener {
             FileOutputStream fous = new FileOutputStream(dest2);
             int t = fins.read();
             while (t != -1) { //解密n=52，c=t，d=11 -->  (ed+@(n)y=1)
-                BigDecimal m = new BigDecimal(t).pow(11).remainder(new BigDecimal(52));
-                t = m.intValue();
+                t-=10;
                 fous.write(t);
                 t = fins.read();
             }

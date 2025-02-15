@@ -3,7 +3,7 @@ package FileEncryption;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-public class fileEncDnc_v1_0 {
+public class fileEncDec_v1_0 {
 
     public void encFile(String src, String dest) {//加密方法
         try {
@@ -46,7 +46,7 @@ public class fileEncDnc_v1_0 {
     }
 
     public static void main(String[] args) {
-        fileEncDnc_v1_0 fe = new fileEncDnc_v1_0();
+        fileEncDec_v1_0 fe = new fileEncDec_v1_0();
         String src = "D:\\桌面\\testjava\\prac1124.txt";
         String dest = "D:\\桌面\\testjava\\prac112402.txt";
         String dest2 = "D:\\桌面\\testjava\\prac112403.txt";
