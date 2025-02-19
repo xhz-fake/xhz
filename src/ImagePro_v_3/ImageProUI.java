@@ -2,7 +2,7 @@ package ImagePro_v_3;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentListener;
+
 
 public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
