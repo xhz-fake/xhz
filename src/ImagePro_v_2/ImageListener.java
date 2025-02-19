@@ -1,4 +1,4 @@
-package ImageProv2;
+package ImagePro_v_2;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

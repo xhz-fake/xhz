@@ -1,9 +1,9 @@
-package ImageProcessing;
+package ImagePro_v_3;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ImageProUI {
+public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
     ImageListener imgl=new ImageListener();//创建监听器对象
     // 展示UI
@@ -34,22 +34,22 @@ public class ImageProUI {
         jf.add(imgPanel,BorderLayout.CENTER);
 
         jf.setVisible(true);
-        imgPanel.addImageL(imgl);//将监听器添加到图像面板中
-        imgl.imagePanel=imgPanel;
 
+        imgl.imagePanel=imgPanel;//ImageListener 中的 imagePanel对象指向了 ImageProUI 中创建的 imgPanel 对象。
+        imgPanel.passImageL(imgl);//将 ImageProUI 中的 imgl 对象传递给了 ImagePanel 中的 imgl 变量。
     }
 
     public void initBtnPanel(JPanel btnPanel){//初始化按钮面板
         String[] btnTexts={"打开","原图","保存","马赛克","灰度"};
-        for (int i = 0; i < btnTexts.length; i++) {
-            JButton btn=new JButton(btnTexts[i]);
+        for (String btnText : btnTexts) {//增强的for循环遍历每个按钮
+            JButton btn = new JButton(btnText);
             btn.setBackground(Color.white);
             btnPanel.add(btn);
             btn.addActionListener(imgl);//添加监听器
         }
         String[] btnTests2={"画笔","直线","矩形","截图","马赛克笔"};
-        for (int i = 0; i < btnTests2.length; i++) {
-            JButton btn=new JButton(btnTests2[i]);
+        for (String btnText : btnTests2) {//增强的for循环遍历每个按钮
+            JButton btn = new JButton(btnText);
             btn.setBackground(Color.LIGHT_GRAY);
             btnPanel.add(btn);
             btn.addActionListener(imgl);//添加监听器

@@ -1,4 +1,4 @@
-package ImageProv1;
+package ImagePro_v_1;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
