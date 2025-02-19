@@ -2,16 +2,19 @@ package ImagePro_v_3;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentListener;
 
 public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
     ImageListener imgl=new ImageListener();//创建监听器对象
+    protected static int UI_WIDTH=1000;
+    protected static int UI_HEIGHT=800;
     // 展示UI
     public void showUI() {
         //创建总窗体
         JFrame jf = new JFrame();
         jf.setTitle("美颜相机v2.0");
-        jf.setSize(1000, 800);
+        jf.setSize(UI_WIDTH, UI_HEIGHT);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setLocationRelativeTo(null);
 
@@ -37,6 +40,8 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
         imgl.imagePanel=imgPanel;//ImageListener 中的 imagePanel对象指向了 ImageProUI 中创建的 imgPanel 对象。
         imgPanel.passImageL(imgl);//将 ImageProUI 中的 imgl 对象传递给了 ImagePanel 中的 imgl 变量。
+
+        jf.addComponentListener(imgl);
     }
 
     public void initBtnPanel(JPanel btnPanel){//初始化按钮面板

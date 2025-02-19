@@ -2,14 +2,11 @@ package ImagePro_v_3;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class ImageListener implements ActionListener, MouseListener {
+public class ImageListener implements ActionListener, MouseListener, ComponentListener {
 
     ImageUtils imgUtils = new ImageUtils();
     protected static ArrayList<BufferedImage> imgList = new ArrayList<>();//为了保存每次操作后的图片创建一个列表
@@ -54,6 +51,8 @@ public class ImageListener implements ActionListener, MouseListener {
         imagePanel.repaint();// 在ImagePanel类中调用，用来重绘图像面板
     }
 
+//MouseListener接口的方法
+    @Override
     public void mouseReleased(MouseEvent e) {
 
     }
@@ -73,5 +72,24 @@ public class ImageListener implements ActionListener, MouseListener {
     public void mouseEntered(MouseEvent e) {
 
     }
+//ComponentListener接口的方法
+    @Override
+    public void componentResized(ComponentEvent e) {
+        imagePanel.repaint();
+    }
 
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
+    }
 }
