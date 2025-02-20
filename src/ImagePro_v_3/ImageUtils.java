@@ -1,6 +1,8 @@
 package ImagePro_v_3;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -87,5 +89,30 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
         }
         return image;
     }
+    public void saveImage(BufferedImage img){
+        JFileChooser jfc = new JFileChooser();//文件选择器
+        jfc.setDialogTitle("保存图片");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & PNG", "png", "jpg");
+        jfc.setFileFilter(filter);
+        int state = jfc.showSaveDialog(null);
+        if (state == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = jfc.getSelectedFile();
+            String path = jfc.getSelectedFile().getAbsolutePath();//获取图片的绝对路径
+            System.out.println("保存的图片地址为:" + path);
+            if (!path.toLowerCase().endsWith(".png") && !path.toLowerCase().endsWith(".jpg")) {
+                path += ".png"; // 默认保存为 PNG 格式
+            }
+            try {
+                ImageIO.write(img, "png", fileToSave);
+                System.out.println("保存成功!");
+                JOptionPane.showMessageDialog(null, "保存成功！","提示",JOptionPane.INFORMATION_MESSAGE);
+            }catch (Exception ex){
+                System.out.println("保存失败!");
+                JOptionPane.showMessageDialog(null, "保存失败！","提示",JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }
+
 
 }
