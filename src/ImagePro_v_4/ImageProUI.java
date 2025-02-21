@@ -9,8 +9,8 @@ import java.io.File;
 public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
     ImageListener imgl = new ImageListener();//创建监听器对象
-    ImagePanel imgPanel=new ImagePanel();
-    ImageUtils imgUtils = new ImageUtils();
+    ImagePanel imgPanel=new ImagePanel();//创建图像面板对象
+    ImageUtils imgUtils = new ImageUtils();//创建面板绘制方法对象
 
     protected static int UI_WIDTH = 1000;
     protected static int UI_HEIGHT = 800;
@@ -51,17 +51,19 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
         jf.setVisible(true);
 
+        //在图像绘制面板上添加鼠标监听器和鼠标动作监听器，在整个UI界面上添加组件监听器
         imgPanel.addMouseMotionListener(imgl);
         imgPanel.addMouseListener(imgl);
         jf.addComponentListener(imgl);
 
         imgPanel.passImageUtils(imgUtils);
+        imgUtils.passImagePanel(imgPanel);
         imgl.passImageUtils(imgUtils);
         imgl.passImagePanel(imgPanel);
     }
 
     public void initBtnPanel(JPanel btnPanel) {//初始化按钮面板
-        String[] btnTexts = {"打开", "原图", "保存", "马赛克", "灰度"};
+        String[] btnTexts = {"打开", "原图","左旋","右旋", "保存", "马赛克", "灰度"};
         for (String btnText : btnTexts) {//增强的for循环遍历每个按钮
             JButton btn = new JButton(btnText);
             btn.setBackground(Color.white);
@@ -71,7 +73,8 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
         String[] btnTests2 = {"<截图>","<画笔>", "<直线>", "<矩形>",  "<马赛克笔>"};
         for (String btnText : btnTests2) {//增强的for循环遍历每个按钮
             JButton btn = new JButton(btnText);
-            btn.setBackground(Color.white);
+            btn.setBackground(Color.BLACK);
+            btn.setForeground(Color.WHITE);
             btnPanel.add(btn);
             btn.addActionListener(imgl);//添加监听器
         }
@@ -96,7 +99,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
                 btn.setBackground(new Color(200,200,200));
                 btn.setPreferredSize(new Dimension(imgBtnFrameW, imgBtnFrameH));
 
-                imgBtnPanel.add(btn);//疑问
+                imgBtnPanel.add(btn);//
 
                 //为按钮添加监听器
                 btn.addActionListener(e -> {
@@ -107,7 +110,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
                     ImageListener.imgList.add(img);
                     imgPanel.repaint();// 在ImagePanel类中调用，用来重绘图像面板
                 });
-                //imgBtnPanel.add(btn);//将按钮添加到面板//疑问
+
             }
             //添加滑动窗口
             JScrollPane jsp = new JScrollPane(imgBtnPanel);

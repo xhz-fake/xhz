@@ -14,7 +14,12 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
     int[][] imgArr;
     int w;
     int h;
-    ArrayList<BufferedImage> imgList;//为了保存每次操作后的图片创建一个列表
+    private ArrayList<BufferedImage> imgList = new ArrayList<>();////////////////////
+    ImagePanel imagePanel;
+
+    public void passImagePanel(ImagePanel imgPanel) {
+        this.imagePanel = imgPanel;
+    }
 
     //获取按钮上的图片
     public BufferedImage getBtnImage(File file) {
@@ -43,7 +48,7 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
             //创建缩放后的图片(看不懂)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             BufferedImage scaledImage = new BufferedImage(scaledWidth, scaledHeight, 2);
             Graphics2D g2d = scaledImage.createGraphics();
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);//////////////////////////////////////////////////////////
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);//设置抗锯齿
             g2d.drawImage(image, 0, 0, scaledWidth, scaledHeight, null);
             g2d.dispose();
 
@@ -51,13 +56,13 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
             BufferedImage minImg = new BufferedImage(btnW, btnH, BufferedImage.TYPE_INT_ARGB);
 
             Graphics2D minG = minImg.createGraphics();//用来设置背景的2d画笔
-            minG.setColor(new Color(30,30,30));//填充背景色
-            minG.fillRect(0,0,btnW,btnH);//填充背景
+            minG.setColor(new Color(30, 30, 30));//填充背景色
+            minG.fillRect(0, 0, btnW, btnH);//填充背景
 
             //计算居中位置
             int realX = (btnW - scaledWidth) / 2;
             int realY = (btnH - scaledHeight) / 2;
-            minG.drawImage(scaledImage, realX, realY,null);
+            minG.drawImage(scaledImage, realX, realY, null);
             minG.dispose();
 
             return minImg;
@@ -122,6 +127,37 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
             }
         }
         return image;
+    }
+
+    //旋转操作
+    public BufferedImage rotateImage(BufferedImage img, double angle) {
+        int w = img.getWidth();
+        int h = img.getHeight();
+
+        double radians = Math.toRadians(angle);//将角度转换为弧度便于计算
+        double sin = Math.abs(Math.sin(radians));
+        double cos = Math.abs(Math.cos(radians));
+        int newWidth = (int) Math.round(w * cos + h * sin);//将一个浮点数四舍五入到最接近的整数值
+        int newHeight = (int) Math.round(w * sin + h * cos);//将一个浮点数四舍五入到最接近的整数值
+
+        BufferedImage rotatedImage = new BufferedImage(newWidth, newHeight, 2);
+        Graphics2D g2d = rotatedImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);//设置抗锯齿
+
+        int centerX=newWidth/2;
+        int centerY=newHeight/2;
+
+        //平移坐标系，使旋转中心点位于图片中心
+        //为了在图像的中心点旋转，需要先将旋转中心平移到图像的中心，
+        // 然后执行旋转操作，最后再将旋转中心平移回原始位置。
+        g2d.translate(centerX,centerY);//translats是移动的意思，即把将坐标系的原点从左上角平移到图像的中心点
+        g2d.rotate(radians);
+        g2d.translate(-w/2,-h/2);//把坐标系原点归位到左上角；
+
+        g2d.drawImage(img,0,0,null);
+        g2d.dispose();//释放资源
+
+        return rotatedImage;
     }
 
     //灰度

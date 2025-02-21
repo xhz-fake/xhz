@@ -41,6 +41,20 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
                 imgList.add(img);
                 System.out.println("显示原图");
             }
+            case "右旋"->{
+                BufferedImage img=imgList.getLast();
+                img=imgUtils.rotateImage(img,90);
+                imgList.add(img);
+                System.out.println("进行右旋");
+                imagePanel.repaint();
+            }
+            case "左旋"->{
+                BufferedImage img=imgList.getLast();
+                img=imgUtils.rotateImage(img,-90);
+                imgList.add(img);
+                System.out.println("进行左旋");
+                imagePanel.repaint();
+            }
             case "灰度" -> {
                 BufferedImage img = imgUtils.drawGray();
                 imgList.add(img);
