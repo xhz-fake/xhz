@@ -9,12 +9,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class ImageUtils {//本类主要负责图片的加载和绘制
     int[][] imgArr;
     int w;
     int h;
     private ArrayList<BufferedImage> imgList = new ArrayList<>();////////////////////
+    private Rectangle selectionRect;
+
+    public void setSelectionRect(Rectangle selectionRect){//传入截图区域
+        this.selectionRect=selectionRect;
+    }
+
+    public Rectangle getSelectionRect(){//获取截图区域
+        return selectionRect;
+    }
+
     ImagePanel imagePanel;
 
     public void passImagePanel(ImagePanel imgPanel) {
@@ -77,7 +86,7 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
     }
 
     //获取最后一张图片
-    public BufferedImage getLastimage(BufferedImage img) {
+    public BufferedImage getLastimage() {
         if (imgList.isEmpty()) {
             return null;
         }
@@ -85,7 +94,7 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
     }
 
     //获取第一张图片
-    public BufferedImage getFirstImage(BufferedImage img) {
+    public BufferedImage getFirstImage() {
         if (imgList.isEmpty()) {
             return null;
         }

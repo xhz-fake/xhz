@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 public class ImagePanel extends JPanel {//本类主要负责将列表中最后一次处理的图像展示在ImagePanel上
 
     ImageUtils imgUtils;//声明一个ImageUtils对象imgUtils
+
     public void passImageUtils(ImageUtils imgUtils){//////////////////////////////////////////
         this.imgUtils=imgUtils;
     }
@@ -18,8 +19,7 @@ public class ImagePanel extends JPanel {//本类主要负责将列表中最后�
             return;
         }
         //获取图片列表的最后一张图片的下标
-        int lastImgIndex = ImageListener.imgList.size() - 1;
-        BufferedImage img = ImageListener.imgList.get(lastImgIndex);//获取最后一张图片
+        BufferedImage img = ImageListener.imgList.getLast();//获取最后一张图片
 
         //获取图片的宽高和面板的宽高
         int panelWidth = this.getWidth();
@@ -42,6 +42,16 @@ public class ImagePanel extends JPanel {//本类主要负责将列表中最后�
 
         //绘制最后一张图片
         gra.drawImage(img, realX, realY, scaledWidth, scaledHeight, null);//这里的方法drawImage是从父类Graphics中继承过来的
+
+        //绘制截取区域
+        Rectangle selectionRect=imgUtils.getSelectionRect();
+        if (selectionRect!=null){
+            Graphics2D g2d=(Graphics2D) gra.create();
+            g2d.setColor(Color.BLACK);
+            g2d.setStroke(new BasicStroke(2));////////////////////////////////
+            g2d.drawRect(selectionRect.x,selectionRect.y,selectionRect.width,selectionRect.height);
+            g2d.dispose();
+        }
     }
 
 }

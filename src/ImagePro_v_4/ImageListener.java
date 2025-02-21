@@ -2,6 +2,7 @@ package ImagePro_v_4;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
     ImageUtils imgUtils ;
 
     protected static ArrayList<BufferedImage> imgList = new ArrayList<>();//为了保存每次操作后的图片创建一个列表
+    private Point startPoint;
+    private Point endPoint;
+    protected Rectangle selectionRect;
+    protected boolean isSelecting=false;
+
 
     public void passImagePanel(ImagePanel imgPanel){///////////////////////////////////////////
         this.imagePanel=imgPanel;
@@ -74,17 +80,26 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
         imagePanel.repaint();// 在ImagePanel类中调用，用来重绘图像面板
     }
 
+
 //MouseListener接口的方法
     @Override
+    public void mousePressed(MouseEvent e) {
+        startPoint=e.getPoint();//记录鼠标按下时的起点
+        selectionRect=new Rectangle(startPoint);// 初始化选择区域
+    }
     public void mouseReleased(MouseEvent e) {
-
+        if (selectionRect!=null&& !selectionRect.isEmpty()){
+            BufferedImage img=ImageListener.imgList.getLast();
+            BufferedImage croppedImage=img.getSubimage(selectionRect.x,selectionRect.y,selectionRect.width,selectionRect.height);
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            ImageListener.imgList.add(croppedImage); // 将截取的图片添加到列表
+            imagePanel.repaint();
+        }
+        imgUtils.setSelectionRect(null);//清空选择区域
+        selectionRect=null;//清空选择区域
     }
 
     public void mouseClicked(MouseEvent e) {
-
-    }
-
-    public void mousePressed(MouseEvent e) {
 
     }
 
@@ -95,6 +110,20 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
     public void mouseEntered(MouseEvent e) {
 
     }
+
+    //MouseMotionListener接口的方法
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        endPoint=e.getPoint();// 记录鼠标拖拽时的终点
+        selectionRect.setFrameFromDiagonal(startPoint,endPoint);// 更新选择区域
+        imagePanel.repaint();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
 //ComponentListener接口的方法
     @Override
     public void componentResized(ComponentEvent e) {
@@ -113,16 +142,6 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
 
     @Override
     public void componentHidden(ComponentEvent e) {
-
-    }
-//MouseMotionListener接口的方法
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
 
     }
 }
