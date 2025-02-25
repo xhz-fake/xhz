@@ -9,7 +9,7 @@ import java.io.File;
 public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
     ImageListener imgl = new ImageListener();//创建监听器对象
-    ImagePanel imgPanel=new ImagePanel();//创建图像面板对象
+    ImagePanel imgPanel = new ImagePanel();//创建图像面板对象
     ImageUtils imgUtils = new ImageUtils();//创建面板绘制方法对象
 
     protected static int UI_WIDTH = 1000;
@@ -63,14 +63,14 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
     }
 
     public void initBtnPanel(JPanel btnPanel) {//初始化按钮面板
-        String[] btnTexts = {"打开", "原图","左旋","右旋", "保存", "马赛克", "灰度"};
+        String[] btnTexts = {"打开", "原图", "左旋", "右旋", "保存", "马赛克", "灰度"};
         for (String btnText : btnTexts) {//增强的for循环遍历每个按钮
             JButton btn = new JButton(btnText);
             btn.setBackground(Color.white);
             btnPanel.add(btn);
             btn.addActionListener(imgl);//添加监听器
         }
-        String[] btnTests2 = {"<截图>","<画笔>", "<直线>", "<矩形>",  "<马赛克笔>"};
+        String[] btnTests2 = {"<截图>", "<画笔>", "<直线>", "<矩形>", "<马赛克笔>"};
         for (String btnText : btnTests2) {//增强的for循环遍历每个按钮
             JButton btn = new JButton(btnText);
             btn.setBackground(Color.BLACK);
@@ -80,7 +80,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
         }
     }
 
-    public  void initListPanel(JPanel listPanel) {//初始化列表面板
+    public void initListPanel(JPanel listPanel) {//初始化列表面板
         listPanel.setLayout(new BorderLayout());
         String rootpath = "D:\\桌面\\邢浩哲\\照片";
         JTextField jtf = new JTextField();
@@ -96,17 +96,17 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
                 btn.setContentAreaFilled(false);//移除按钮的背景填充
                 BufferedImage btnImage = imgUtils.getBtnImage(imgFile);//由于在单个循环内，每个画笔的坐标xy即指单个btn上的坐标
                 btn.setIcon(new ImageIcon(btnImage));//设置按钮的图标
-                btn.setBackground(new Color(200,200,200));
+                btn.setBackground(new Color(200, 200, 200));
                 btn.setPreferredSize(new Dimension(imgBtnFrameW, imgBtnFrameH));
 
                 imgBtnPanel.add(btn);//
 
                 //为按钮添加监听器
                 btn.addActionListener(e -> {
-                    String fileName =imgFile.getName();
+                    String fileName = imgFile.getName();
                     jtf.setText(rootpath + "\\" + fileName);
                     imgUtils.loadImage(jtf.getText());
-                    BufferedImage img=imgUtils.drawImage();
+                    BufferedImage img = imgUtils.drawImage();
                     ImageListener.imgList.add(img);
                     imgPanel.repaint();// 在ImagePanel类中调用，用来重绘图像面板
                 });
