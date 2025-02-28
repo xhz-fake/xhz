@@ -11,12 +11,11 @@ public class ImageProUI {
         jf.setSize(1000, 800);
         jf.setLocation(300, 50);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.setTitle("美颜相机v.3.0");
+        jf.setTitle("美颜相机_v_2");
         jf.setLayout(new FlowLayout());
 
         JLabel pathJla = new JLabel("图片地址：");
         JTextField pathJtf = new JTextField(30);
-        pathJtf.setText("d:\\桌面\\8d63fa8f74cda695ea974e1397b47db.png");
         jf.add(pathJla);
         jf.add(pathJtf);
 
