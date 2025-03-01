@@ -222,8 +222,8 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
         BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         //获取这个图片的对象的图像渲染器-画笔
         Graphics imgGra = image.getGraphics();
-        for (int i = 0; i < w; i += 10) {
-            for (int j = 0; j < h; j += 10) {
+        for (int i = 0; i < w; i += 25) {
+            for (int j = 0; j < h; j += 25) {
                 int rgbNum = imgArr[i][j];
                 Color color = new Color(rgbNum);
                 int r = color.getRed();
@@ -231,7 +231,7 @@ public class ImageUtils {//本类主要负责图片的加载和绘制
                 int b = color.getBlue();
                 Color Mosaiccolor = new Color(r, g, b);
                 imgGra.setColor(Mosaiccolor);
-                imgGra.fillRect(i, j, 10, 10);
+                imgGra.fillRect(i, j, 30, 30);
             }
         }
         return image;

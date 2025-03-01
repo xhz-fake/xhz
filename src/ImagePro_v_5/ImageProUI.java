@@ -91,7 +91,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
         File rootfile = new File(rootpath);
         File[] files = rootfile.listFiles();
         if (files != null) {
-            for (File imgFile : files) {//遍历对应目录下每个图片文件，并为之设置图片按钮
+            for (File imgFile : files) {//遍历对应目录下每个图-片文件，并为之设置图片按钮
                 JButton btn = new JButton();
                 btn.setContentAreaFilled(false);//移除按钮的背景填充
                 BufferedImage btnImage = imgUtils.getBtnImage(imgFile);//由于在单个循环内，每个画笔的坐标xy即指单个btn上的坐标

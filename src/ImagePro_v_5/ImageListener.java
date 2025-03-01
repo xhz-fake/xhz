@@ -104,8 +104,11 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
     //MouseListener接口的方法
     @Override
     public void mousePressed(MouseEvent e) {
+
         startPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
-        selectionRect = new Rectangle(startPoint);// 初始化选择区域
+        if (drawType.equals("<截图>")) {
+            selectionRect = new Rectangle(startPoint);// 初始化选择区域
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -188,40 +191,49 @@ public class ImageListener implements ActionListener, MouseListener, ComponentLi
     @Override
     public void mouseDragged(MouseEvent e) {
 
-        if (drawType.equals("<截图>")) {
-            Point endPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
-            selectionRect.setFrameFromDiagonal(startPoint, endPoint);// 更新选择区域
-            imgUtils.setSelectionRect(selectionRect);//将选择区域传给ImageUtils
-            imagePanel.repaint();//重绘面板以显示选择区域
-        } else if (drawType.equals("<画笔>")) {
-            BufferedImage img = imgList.getLast();
-            Graphics2D imgGra = img.createGraphics();
-            imgGra.setColor(Color.red);
-            imgGra.setStroke(new BasicStroke(2));
-            Point currentPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
-            if (sPoint == null) {
-                sPoint = currentPoint;
+        switch (drawType) {
+            case "<截图>" -> {
+                Point endPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
+
+                selectionRect.setFrameFromDiagonal(startPoint, endPoint);// 更新选择区域
+
+                imgUtils.setSelectionRect(selectionRect);//将选择区域传给ImageUtils
+
+                imagePanel.repaint();//重绘面板以显示选择区域
             }
-            imgGra.drawLine(sPoint.x, sPoint.y, currentPoint.x, currentPoint.y);
-            sPoint = currentPoint;
-            imgGra.dispose();
-            imagePanel.repaint();
-            imgList.add(img);
-        } else if (drawType.equals("<马赛克笔>")) {
-            BufferedImage img = imgList.getLast();
-            Graphics2D imgGra = img.createGraphics();
-            Point currentPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
-            if (sPoint == null) {
+            case "<画笔>" -> {
+                BufferedImage img = imgList.getLast();
+                Graphics2D imgGra = img.createGraphics();
+                imgGra.setColor(Color.red);
+                imgGra.setStroke(new BasicStroke(2));
+                Point currentPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
+
+                if (sPoint == null) {
+                    sPoint = currentPoint;
+                }
+                imgGra.drawLine(sPoint.x, sPoint.y, currentPoint.x, currentPoint.y);
                 sPoint = currentPoint;
+                imgGra.dispose();
+                imagePanel.repaint();
+                imgList.add(img);
             }
-            int rgb=img.getRGB(sPoint.x,sPoint.y);
-            Color color=new Color(rgb);
-            imgGra.setColor(color);
-            imgGra.fillOval(sPoint.x,sPoint.y,15,15);
-            sPoint = currentPoint;
-            imgGra.dispose();
-            imagePanel.repaint();
-            imgList.add(img);
+            case "<马赛克笔>" -> {
+                BufferedImage img = imgList.getLast();
+                Graphics2D imgGra = img.createGraphics();
+                Point currentPoint = imagePanel.panelToImageCoordinates(e.getPoint());//转换为图片坐标
+
+                if (sPoint == null) {
+                    sPoint = currentPoint;
+                }
+                int rgb = img.getRGB(sPoint.x, sPoint.y);
+                Color color = new Color(rgb);
+                imgGra.setColor(color);
+                imgGra.fillOval(sPoint.x, sPoint.y, 15, 15);
+                sPoint = currentPoint;
+                imgGra.dispose();
+                imagePanel.repaint();
+                imgList.add(img);
+            }
         }
 
     }
