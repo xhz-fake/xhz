@@ -8,15 +8,20 @@ import java.util.Random;
 import java.util.Set;
 
 public class GamePanel extends JPanel implements KeyListener {
-    private final TankA tankA;
-    private final TankB tankB;
+    private  TankA tankA;
+    private  TankB tankB;
     private final Set<Integer> pressedKeys = new HashSet<>();
     private final Timer gameTimer;
     private final Random ran = new Random();
+    private final BattleMaps map;
 
     public GamePanel() {
-        tankA = new TankA(50 + ran.nextInt(900), 50 + ran.nextInt(700));
-        tankB = new TankB(50 + ran.nextInt(900), 50 + ran.nextInt(700));
+        map = new BattleMaps();
+
+        // 生成坦克A的合法位置
+        tankA = generatePositionA(45, 35);
+        tankB = generatePositionB(45, 35);
+        // 生成坦克B的合法位置（且不与A重叠）
 
         // 初始化游戏定时器（每16ms≈60FPS）
         //使用游戏循环（Timer）来定期处理按键状态，更新坦克位置。
@@ -29,6 +34,30 @@ public class GamePanel extends JPanel implements KeyListener {
 
         setFocusable(true);
         addKeyListener(this);
+    }
+
+    private TankA generatePositionA(int width, int height) {
+        Random ran = new Random();
+        Rectangle tempRect;
+        int x, y;
+        do {
+            x = 50 + ran.nextInt(900);
+            y = 50 + ran.nextInt(700);
+            tempRect = new Rectangle(x, y, width, height);
+        } while (map.isCollidingWithWall(tempRect)); // 确保不生成在墙上
+        return new TankA(x, y); // 或 TankB
+    }
+
+    private TankB generatePositionB(int width, int height) {
+        Random ran = new Random();
+        Rectangle tempRect;
+        int x, y;
+        do {
+            x = 50 + ran.nextInt(900);
+            y = 50 + ran.nextInt(700);
+            tempRect = new Rectangle(x, y, width, height);
+        } while (map.isCollidingWithWall(tempRect)); // 确保不生成在墙上
+        return new TankB(x, y); // 或 TankB
     }
 
     private void processInput() {
@@ -76,14 +105,33 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void updateGame() {
-        tankA.move();
-        tankB.move();
+      handleTankMovement(tankA);
+      handleTankMovement(tankB);
+    }
+
+    private void handleTankMovement(MoveObjects tank){
+        //保存移动前的位置
+        int oldX=tank.getX();
+        int oldY=tank.getY();
+        //移动坦克
+        tank.move();
+        // 获取移动后的碰撞区域
+        Rectangle newBounds=tank.getBounds();
+
+        //检测是否会与墙体发射碰撞
+        if(map.isCollidingWithWall(newBounds)){//碰撞后回退位置并重置速度
+            tank.setX(oldX);
+            tank.setY(oldY);
+            tank.setSpeedX(0);
+            tank.setSpeedY(0);
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {//自动启用Swing双缓冲，避免闪烁
         super.paintComponent(g);// 清空背景，清除前一帧画面
         Graphics2D g2d = (Graphics2D) g.create();
+        map.paintMap(g2d);
         tankA.drawTankA(g2d);
         tankB.drawTankB(g2d);
         g2d.dispose();//保证图形状态隔离
@@ -102,7 +150,8 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+    }
 }
 /*
 

@@ -8,8 +8,8 @@ public class TankB extends MoveObjects {
 
     public TankB(int x, int y) {
         super(x, y);
-        setWidth(55);
-        setHeight(42);
+        setWidth(45);
+        setHeight(35);
         setDirection(1);
 
         for(int i=0;i<4;i++) {
