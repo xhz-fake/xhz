@@ -14,9 +14,11 @@ public class GamePanel extends JPanel implements KeyListener {
     private final Timer gameTimer;
     private final Random ran = new Random();
     private final BattleMaps map;
+    private final scorePanel sPanel;
 
     public GamePanel() {
         map = new BattleMaps();
+        sPanel=new scorePanel();
 
         // 生成坦克A的合法位置
         tankA = generatePositionA(45, 35);
@@ -134,6 +136,7 @@ public class GamePanel extends JPanel implements KeyListener {
         map.paintMap(g2d);
         tankA.drawTankA(g2d);
         tankB.drawTankB(g2d);
+        sPanel.drawTankPicture(g2d);
         g2d.dispose();//保证图形状态隔离
     }
 

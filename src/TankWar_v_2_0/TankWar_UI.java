@@ -10,10 +10,14 @@ public class TankWar_UI {
         jf.setTitle("---Tank War---");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setResizable(false);
-        jf.setLocation(320,70);
+        jf.setLocation(320,60);
 
         GamePanel gamePanel =new GamePanel();
+        scorePanel scorePanel=new scorePanel();
+
+        scorePanel.setBackground(Color.WHITE);
         gamePanel.setBackground(Color.WHITE);
+        jf.add(scorePanel,BorderLayout.SOUTH);
         jf.add(gamePanel,BorderLayout.CENTER);
 
         jf.setVisible(true);

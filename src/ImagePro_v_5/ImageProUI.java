@@ -82,7 +82,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
 
     public void initListPanel(JPanel listPanel) {//初始化列表面板
         listPanel.setLayout(new BorderLayout());
-        String rootpath = "D:\\桌面\\邢浩哲\\照片";
+        String rootpath = "D:\\桌面\\Xing\\Photos";
         JTextField jtf = new JTextField();
         listPanel.add(jtf, BorderLayout.NORTH);
 
