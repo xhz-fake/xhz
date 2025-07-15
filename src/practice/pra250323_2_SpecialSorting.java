@@ -1,5 +1,6 @@
 package practice;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -50,5 +51,7 @@ public class pra250323_2_SpecialSorting {
                 System.out.print(map2.get(key).get(k)+" ");
             }
         }
+
     }
+
 }

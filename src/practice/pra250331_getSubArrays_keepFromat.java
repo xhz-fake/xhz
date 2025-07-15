@@ -25,12 +25,13 @@ public class pra250331_getSubArrays_keepFromat {
             a[i]=num;
             list.add(num);
         }
+        ArrayList<Integer>liu=new ArrayList<>(list.subList(1,8));
 
         int keneng=(n-k+1)*(n-k+1);
         int from=0;
         int to=k;
         for(int i=0;i<n-k+1;i++) {
-            int subArray[]=Arrays.copyOfRange(a,from,to);
+            int[] subArray =Arrays.copyOfRange(a,from,to);
             list1.add(subArray);
             list2.add(subArray);
             from++;

@@ -11,6 +11,7 @@ public class pra250325_SpecialInputByLines {
         in.nextLine();
         int m=0;
         int n=0;
+
         while(N-->0){
             String line=in.nextLine();
             String[] splitS=line.split(" ");
@@ -18,6 +19,7 @@ public class pra250325_SpecialInputByLines {
                 list.add(Integer.parseInt(split));
             }
         }
+
         list.sort(null);
         for(int i=0;i<list.size()-1;i++) {
             int num=list.get(i);

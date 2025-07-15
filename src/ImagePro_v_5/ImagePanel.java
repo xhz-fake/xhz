@@ -66,25 +66,20 @@ public class ImagePanel extends JPanel {//本类主要负责将列表中最后�
     public Point panelToImageCoordinates(Point panelPoint) {
         //获取图片列表的最后一张图片的下标
         BufferedImage img = ImageListener.imgList.getLast();//获取最后一张图片
-
         //获取图片的宽高和面板的宽高
         int panelWidth = this.getWidth();
         int panelHeight = this.getHeight();
         int imgWidth = img.getWidth();
         int imgHeight = img.getHeight();
-
         //计算图片缩放比例
         double widthScale = (double) panelWidth / imgWidth;
         double heightScale = (double) panelHeight / imgHeight;
         double scale = Math.min(widthScale, heightScale);
-
         int scaledWidth = (int) (imgWidth * scale);
         int scaledHeight = (int) (imgHeight * scale);
-
         //计算偏移量
         int offsetX = (panelWidth - scaledWidth) / 2;
         int offsetY = (panelHeight - scaledHeight) / 2;
-
         //将面板上的点坐标映射到图片上
         int imgX = (int) ((panelPoint.x - offsetX) / scale);
         int imgY = (int) ((panelPoint.y - offsetY) / scale);

@@ -12,9 +12,9 @@ public class ViPerceptron_v_2_0 extends JFrame {
     private final List<double[]> trainingData = new ArrayList<>();
     private final NeuralNetwork neuralNetwork;
     private int trainCount = 0;
-    private final JLabel statusLabel;  // 新增状态标签
+    private final JLabel statusLabel;  //新增状态标签
 
-    public ViPerceptron_v_2_0() {//GUI界面实现
+    public ViPerceptron_v_2_0() { //GUI界面实现
         setTitle("神经网络可视化训练 v2.1");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

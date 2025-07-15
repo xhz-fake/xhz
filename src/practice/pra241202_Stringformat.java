@@ -45,5 +45,6 @@ public class pra241202_Stringformat {
         Scanner in = new Scanner(System.in);
         String str = in.nextLine();
         String ans=solution(str);
+
     }
 }

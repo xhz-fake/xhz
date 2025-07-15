@@ -13,8 +13,8 @@ public class fileEncDec_v3_0_powerful {
     public static void main(String[] args) {
 
         File srcFile = new File("D:\\桌面\\testjava\\代码(1).txt"); //初始文件
-        File encFile = new File("D:\\桌面\\testjava\\pra1.txt"); //加密文件
-        File decFile = new File("D:\\桌面\\testjava\\pra2.txt"); //解密文件
+        File encFile = new File("D:\\桌面\\testjava\\pra加密.txt"); //加密文件
+        File decFile = new File("D:\\桌面\\testjava\\pra解密.txt"); //解密文件
         try {
             EncFile(srcFile, encFile); //加密操作
             DecFile(encFile, decFile); //解密操作
@@ -50,7 +50,7 @@ public class fileEncDec_v3_0_powerful {
          if (!encFile.exists()) {
              System.out.println("encrypt file not exixt");
              return;
-             }
+         }
 
         if (!decFile.exists()) {
             System.out.println("decrypt file created");

@@ -20,7 +20,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
     public void showUI() {
         //创建总窗体
         JFrame jf = new JFrame();
-        jf.setTitle("照片");
+        jf.setTitle("图像处理工具");
         jf.setSize(UI_WIDTH, UI_HEIGHT);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setLocationRelativeTo(null);
@@ -62,6 +62,72 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
         imgl.passlistPanel(listPanel);
     }
 
+    public ImageProUI() {
+        showUI();
+    }
+
+    public ImageProUI(ImageListener imgl, ImagePanel imgPanel, ImageUtils imgUtils) {//有参构造
+        this.imgl = imgl;
+        this.imgPanel = imgPanel;
+        this.imgUtils = imgUtils;
+    }
+
+    public ImageListener getImgl() {
+        return imgl;
+    }
+
+    public void setImgl(ImageListener imgl) {
+        this.imgl = imgl;
+    }
+
+    public ImagePanel getImgPanel() {
+        return imgPanel;
+    }
+
+    public void setImgPanel(ImagePanel imgPanel) {
+        this.imgPanel = imgPanel;
+    }
+
+    public ImageUtils getImgUtils() {
+        return imgUtils;
+    }
+
+    public void setImgUtils(ImageUtils imgUtils) {
+        this.imgUtils = imgUtils;
+    }
+
+    public static int getUiWidth() {
+        return UI_WIDTH;
+    }
+
+    public static void setUiWidth(int uiWidth) {
+        UI_WIDTH = uiWidth;
+    }
+
+    public static int getUiHeight() {
+        return UI_HEIGHT;
+    }
+
+    public static void setUiHeight(int uiHeight) {
+        UI_HEIGHT = uiHeight;
+    }
+
+    public static int getImgBtnFrameW() {
+        return imgBtnFrameW;
+    }
+
+    public static void setImgBtnFrameW(int imgBtnFrameW) {
+        ImageProUI.imgBtnFrameW = imgBtnFrameW;
+    }
+
+    public static int getImgBtnFrameH() {
+        return imgBtnFrameH;
+    }
+
+    public static void setImgBtnFrameH(int imgBtnFrameH) {
+        ImageProUI.imgBtnFrameH = imgBtnFrameH;
+    }
+
     public void initBtnPanel(JPanel btnPanel) {//初始化按钮面板
         String[] btnTexts = {"打开", "原图", "保存","左旋", "右旋",  "马赛克", "灰度", "油画", "轮廓"};
         for (String btnText : btnTexts) {//增强的for循环遍历每个按钮
@@ -79,6 +145,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
             btn.addActionListener(imgl);//添加监听器
         }
     }
+
 
     public void initListPanel(JPanel listPanel) {//初始化列表面板
         listPanel.setLayout(new BorderLayout());
@@ -120,7 +187,8 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
     }
 
     public static void main(String[] args) {
-        ImageProUI imageProUI = new ImageProUI();
-        imageProUI.showUI();
+        SwingUtilities.invokeLater(ImageProUI::new);//将 GUI 初始化任务提交到 Swing
+        // 的事件调度线程（Event Dispatch Thread, EDT）
+        //使用前提:以上代码的目标类(ImagePanel)必须有构造函数并且在构造函数中调用具体的界面按绘制方法(showUI)
     }
 }
