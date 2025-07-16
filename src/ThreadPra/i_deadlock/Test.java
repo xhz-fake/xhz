@@ -8,6 +8,5 @@ public class Test {
         new Thread(deadlock1).start();
         new Thread(deadlock2).start();
 
-
     }
 }

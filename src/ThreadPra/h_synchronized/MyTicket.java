@@ -16,7 +16,7 @@ public class MyTicket implements Runnable {
     }
 
     public static void method03(){//方法4:静态同步方法
-        synchronized (MyTicket.class) {//默认锁:class对象
+        synchronized (MyTicket.class) {//默认锁:当前类的class对象
             if (ticket > 0) {
                 System.out.println(Thread.currentThread().getName() + "买了第" + ticket + "张票");
                 ticket--;
