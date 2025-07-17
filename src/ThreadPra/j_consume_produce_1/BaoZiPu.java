@@ -1,14 +1,9 @@
-package ThreadPra.j_consume_produce_;
+package ThreadPra.j_consume_produce_1;
 
 public class BaoZiPu {
 
     private int count;
     private boolean flag;
-
-    public BaoZiPu(int count, boolean flag) {
-        this.count = count;
-        this.flag = flag;
-    }
 
     public BaoZiPu() {
     }

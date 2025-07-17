@@ -1,4 +1,4 @@
-package ThreadPra.j_consume_produce_;
+package ThreadPra.j_consume_produce_1;
 
 public class Producer implements Runnable {
 

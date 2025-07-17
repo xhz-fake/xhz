@@ -1,6 +1,6 @@
-package ThreadPra.j_consume_produce_;
+package ThreadPra.k_consume_produce_2;
 
-public class Test {
+public class Test {//通过同步方法实现生产消费
     public static void main(String[] args) {
         BaoZiPu baoZiPu = new BaoZiPu();//new一个包子铺,将其作为参数传入两个线程类的构造器里
 
@@ -12,6 +12,5 @@ public class Test {
 
         t1.start();
         t2.start();
-
     }
 }
