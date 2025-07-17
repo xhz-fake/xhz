@@ -1,4 +1,4 @@
-package ThreadPra.l_wait_notify;
+package ThreadPra.l_consume_produce_3;
 
 public class BaoZiPu {
 

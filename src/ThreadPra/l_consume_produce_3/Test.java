@@ -1,4 +1,4 @@
-package ThreadPra.l_wait_notify;
+package ThreadPra.l_consume_produce_3;
 
 public class Test {//多等待,多唤醒,多生产,多消费
 

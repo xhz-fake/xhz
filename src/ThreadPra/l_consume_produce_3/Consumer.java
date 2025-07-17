@@ -1,10 +1,10 @@
-package ThreadPra.l_wait_notify;
+package ThreadPra.l_consume_produce_3;
 
-public class Producer implements Runnable {
+public class Consumer implements Runnable {
 
     BaoZiPu baoZiPu;
 
-    public Producer(BaoZiPu baoZiPu) {
+    public Consumer(BaoZiPu baoZiPu) {
         this.baoZiPu = baoZiPu;
     }
 
@@ -18,7 +18,7 @@ public class Producer implements Runnable {
                 throw new RuntimeException(e);
             }
 
-            baoZiPu.AddCount();
+            baoZiPu.SubCount();
         }
     }
 }
