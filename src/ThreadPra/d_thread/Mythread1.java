@@ -1,6 +1,6 @@
 package ThreadPra.d_thread;
 
-public class Mythread1 extends Thread{
+public class Mythread1 extends Thread{//实现多线程的方式1-> 继承Thread
     @Override
     public void run() {
         for(int i=0;i<=30;i++){

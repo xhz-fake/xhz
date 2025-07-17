@@ -2,7 +2,7 @@ package ThreadPra.n_callable;
 
 import java.util.concurrent.Callable;
 
-public class MyCallable implements Callable<String> {
+public class MyCallable implements Callable<String> {//实现多线程的方式3 ->实现Callable接口
 
     @Override
     public String call() throws Exception {
