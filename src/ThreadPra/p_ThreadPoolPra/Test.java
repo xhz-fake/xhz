@@ -11,8 +11,7 @@ public class Test {
         Future<String> future=es.submit(new MyString());
         Future<Integer> future1=es.submit(new MySum());
 
-        System.out.println(future1.get());
-        System.out.println(future.get());
-
+        System.out.println(Thread.currentThread().getName()+future1.get());
+        System.out.println(Thread.currentThread().getName()+future.get());
     }
 }

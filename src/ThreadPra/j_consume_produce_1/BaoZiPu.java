@@ -5,9 +5,6 @@ public class BaoZiPu {
     private int count;
     private boolean flag;
 
-    public BaoZiPu() {
-    }
-
     public void SubCount() {
         System.out.println("消费了第" + count + "个包子-----");
     }
