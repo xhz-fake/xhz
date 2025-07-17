@@ -2,7 +2,7 @@ package ThreadPra.j_consume_produce_;
 
 public class Producer implements Runnable {
 
-    BaoZiPu baoZiPu ;
+    BaoZiPu baoZiPu;
 
     public Producer(BaoZiPu baoZiPu) {
         this.baoZiPu = baoZiPu;

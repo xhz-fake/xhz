@@ -14,12 +14,12 @@ public class BaoZiPu {
     }
 
     public void SubCount() {
-        System.out.println("消费了第"+count+"个包子-----");
+        System.out.println("消费了第" + count + "个包子-----");
     }
 
     public void AddCount() {
         count++;
-        System.out.println("生产了第"+count+"个包子+++++");
+        System.out.println("生产了第" + count + "个包子+++++");
     }
 
     public boolean isFlag() {
@@ -29,7 +29,5 @@ public class BaoZiPu {
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
-
-
 
 }
