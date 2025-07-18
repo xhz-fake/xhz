@@ -15,6 +15,5 @@ public class Test {//多等待,多唤醒,多生产,多消费
         new Thread(consumer, "消费者1").start();
         new Thread(consumer, "消费者2").start();
         new Thread(consumer, "消费者3").start();
-
     }
 }

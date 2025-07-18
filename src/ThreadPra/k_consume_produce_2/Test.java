@@ -6,11 +6,8 @@ public class Test {//通过同步方法实现生产消费
 
         Producer producer = new Producer(baoZiPu);
         Consumer consumer = new Consumer(baoZiPu);
+        new Thread(producer, "生产者1").start();
+        new Thread(consumer, "消费者1").start();
 
-        Thread t1 = new Thread(producer, "生产者");
-        Thread t2 = new Thread(consumer, "消费者");
-
-        t1.start();
-        t2.start();
     }
 }

@@ -5,9 +5,6 @@ public class BaoZiPu {
     private int count;
     private boolean flag;
 
-    public BaoZiPu() {
-    }
-
     public synchronized void SubCount() {//有包子则消费
         //判断 flag是否为true
         if (!this.flag) {//1.判断 flag是否为false ,无则等待,有则消费
