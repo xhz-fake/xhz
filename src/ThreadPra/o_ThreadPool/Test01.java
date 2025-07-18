@@ -5,8 +5,8 @@ import java.util.concurrent.Executors;
 
 public class Test01 {
     public static void main(String[] args) {
-        //创建线程池对象
-        ExecutorService pool=Executors.newFixedThreadPool(2);
+
+        ExecutorService pool=Executors.newFixedThreadPool(2); //创建线程池对象
         pool.submit(new MyRunnable());
         pool.submit(new MyRunnable());
         pool.submit(new MyRunnable());

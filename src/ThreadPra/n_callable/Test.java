@@ -15,6 +15,5 @@ public class Test {
         //调用get方法获取call方法的返回值
         System.out.println(futureTask.get());
 
-
     }
 }
