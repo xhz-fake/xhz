@@ -19,6 +19,7 @@ public class MoveObjects {
         x += speedX;
         y += speedY;
     }
+
     public Rectangle getBounds(){
         return new Rectangle(x,y,width,height);
     }

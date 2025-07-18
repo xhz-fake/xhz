@@ -2,23 +2,30 @@ package TankWar_v_2_0;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class GamePanel extends JPanel implements KeyListener {
-    private  TankA tankA;
-    private  TankB tankB;
+    private TankA tankA;
+    private TankB tankB;
     private final Set<Integer> pressedKeys = new HashSet<>();
     private final Timer gameTimer;
     private final Random ran = new Random();
     private final BattleMaps map;
     private final scorePanel sPanel;
 
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private boolean gameover = false;
+    private String winner = "";
+
+
     public GamePanel() {
         map = new BattleMaps();
-        sPanel=new scorePanel();
+        sPanel = new scorePanel();
 
         // 生成坦克A的合法位置
         tankA = generatePositionA(45, 35);
@@ -107,26 +114,71 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void updateGame() {
-      handleTankMovement(tankA);
-      handleTankMovement(tankB);
+        if(gameover){
+            return;
+        }
+
+        handleTankMovement(tankA);
+        handleTankMovement(tankB);
+
+        //更新子弹位置
+        for(Bullet bullet:new ArrayList<>(bullets)){
+            bullet.move();
+            //检测子弹与墙壁的碰撞
+            if(map.isCollidingWithWall(bullet.getBounds())){
+                bullet.setActive(false);
+            }
+            //检测子弹与坦克碰撞
+            if(bullet.isActive()){
+                if(bullet.isFormTankA()&&bullet.getBounds().intersects(tankB.getBounds())){
+                    gameover=true;
+                    winner="TankA";
+                    bullet.setActive(false);
+                    ////////showGameOver
+
+                }else if(!bullet.isFormTankA()&&bullet.getBounds().intersects(tankA.getBounds())){
+                    gameover=true;
+                    winner="TankB";
+                    bullet.setActive(false);
+                    ////////showGameOver
+                }
+            }
+        }
+        bullets.removeIf(bullet -> !bullet.isActive());//移除不活跃的子弹
     }
 
-    private void handleTankMovement(MoveObjects tank){
+    private void handleTankMovement(MoveObjects tank) {
         //保存移动前的位置
-        int oldX=tank.getX();
-        int oldY=tank.getY();
+        int oldX = tank.getX();
+        int oldY = tank.getY();
         //移动坦克
         tank.move();
         // 获取移动后的碰撞区域
-        Rectangle newBounds=tank.getBounds();
+        Rectangle newBounds = tank.getBounds();
 
         //检测是否会与墙体发射碰撞
-        if(map.isCollidingWithWall(newBounds)){//碰撞后回退位置并重置速度
+        if (map.isCollidingWithWall(newBounds)) {//碰撞后回退位置并重置速度
             tank.setX(oldX);
             tank.setY(oldY);
             tank.setSpeedX(0);
             tank.setSpeedY(0);
         }
+    }
+
+    private void showGameOver(){
+        SwingUtilities.invokeLater(()->{
+            int option =JOptionPane.showConfirmDialog(
+                    this,winner+"Wins!!!\nWANT PLAY AGAIN?","Game Over",JOptionPane.YES_NO_OPTION
+            );
+
+            if(option==JOptionPane.YES_OPTION){
+                ////resetgame();
+            }else{
+                System.exit(0);
+            }
+
+        });
+
     }
 
     @Override

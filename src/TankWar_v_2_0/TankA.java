@@ -34,4 +34,8 @@ public class TankA extends MoveObjects {
         }
     }
 
+    public Rectangle getBounds(){
+        return new Rectangle(getX(),getY(),getWidth(),getHeight());
+    }
+
 }
