@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel implements KeyListener {//GamePanel类是游戏的核心控制器，负责管理游戏循环、输入处理和游戏状态更新。
     private TankA tankA;
     private TankB tankB;
     private final Set<Integer> pressedKeys = new HashSet<>();
@@ -17,7 +17,6 @@ public class GamePanel extends JPanel implements KeyListener {
     private final Random ran = new Random();
     private final BattleMaps map;
     private final scorePanel sPanel;
-
     private ArrayList<Bullet> bullets = new ArrayList<>();
     private boolean gameOver = false;
     private String winner = "";
@@ -34,7 +33,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         // 初始化游戏定时器（每16ms≈60FPS）
         //使用游戏循环（Timer）来定期处理按键状态，更新坦克位置。
-        gameTimer = new Timer(5, e -> {
+        gameTimer = new Timer(7, e -> {
             processInput();// 处理输入
             updateGame();// 更新游戏状态
             repaint(); // 请求重绘
@@ -132,13 +131,13 @@ public class GamePanel extends JPanel implements KeyListener {
             if (bullet.isActive()) {
                 if (bullet.isFormTankA() && bullet.getBounds().intersects(tankB.getBounds())) {
                     gameOver = true;
-                    winner = "TankA";
+                    winner = "-TankA-";
                     bullet.setActive(false);
                     showGameOver();
 
                 } else if (!bullet.isFormTankA() && bullet.getBounds().intersects(tankA.getBounds())) {
                     gameOver = true;
-                    winner = "TankB";
+                    winner = "-TankB-";
                     bullet.setActive(false);
                     showGameOver();
                 }
@@ -168,7 +167,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private void showGameOver() {
         SwingUtilities.invokeLater(() -> {
             int option = JOptionPane.showConfirmDialog(
-                    this, winner + "Wins!!!\nWANT PLAY AGAIN?", "Game Over", JOptionPane.YES_NO_OPTION
+                    this, winner + "  Wins!!!\nWANT PLAY AGAIN?", "--Game Over--", JOptionPane.YES_NO_OPTION
             );
 
             if (option == JOptionPane.YES_OPTION) {

@@ -21,7 +21,7 @@ public class TankWar_UI {
         jf.add(gamePanel,BorderLayout.CENTER);
 
         jf.setVisible(true);
-        gamePanel.requestFocus();
+        gamePanel.requestFocus();//获取焦点
     }
 
     public static void main(String[] args) {

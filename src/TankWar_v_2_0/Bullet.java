@@ -58,5 +58,4 @@ public class Bullet {
         return formTankA;
     }
 
-
 }

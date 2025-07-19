@@ -101,13 +101,13 @@ public class BattleMaps {
             for (int col = startCol; col <= endCol; col++) {
                 if (row < map1.length && col < map1[row].length) {
                     if (map1[row][col] == Brick) {
-                        Rectangle wallRect = new Rectangle(
+                        Rectangle wallRect = new Rectangle(// 创建墙体的矩形区域
                                 mapStartX + col * tileSize,
                                 mapStartY + row * tileSize,
                                 tileSize,
                                 tileSize
                         );
-                        if (rect.intersects(wallRect)) {
+                        if (rect.intersects(wallRect)) {// 检查对象是否与墙体相交
                             return true;
                         }
                     }
