@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private final scorePanel sPanel;
 
     private ArrayList<Bullet> bullets = new ArrayList<>();
-    private boolean gameover = false;
+    private boolean gameOver = false;
     private String winner = "";
 
 
@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         // 初始化游戏定时器（每16ms≈60FPS）
         //使用游戏循环（Timer）来定期处理按键状态，更新坦克位置。
-        gameTimer = new Timer(16, e -> {
+        gameTimer = new Timer(5, e -> {
             processInput();// 处理输入
             updateGame();// 更新游戏状态
             repaint(); // 请求重绘
@@ -114,7 +114,7 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void updateGame() {
-        if(gameover){
+        if (gameOver) {
             return;
         }
 
@@ -122,25 +122,25 @@ public class GamePanel extends JPanel implements KeyListener {
         handleTankMovement(tankB);
 
         //更新子弹位置
-        for(Bullet bullet:new ArrayList<>(bullets)){
+        for (Bullet bullet : new ArrayList<>(bullets)) {
             bullet.move();
             //检测子弹与墙壁的碰撞
-            if(map.isCollidingWithWall(bullet.getBounds())){
+            if (map.isCollidingWithWall(bullet.getBounds())) {
                 bullet.setActive(false);
             }
             //检测子弹与坦克碰撞
-            if(bullet.isActive()){
-                if(bullet.isFormTankA()&&bullet.getBounds().intersects(tankB.getBounds())){
-                    gameover=true;
-                    winner="TankA";
+            if (bullet.isActive()) {
+                if (bullet.isFormTankA() && bullet.getBounds().intersects(tankB.getBounds())) {
+                    gameOver = true;
+                    winner = "TankA";
                     bullet.setActive(false);
-                    ////////showGameOver
+                    showGameOver();
 
-                }else if(!bullet.isFormTankA()&&bullet.getBounds().intersects(tankA.getBounds())){
-                    gameover=true;
-                    winner="TankB";
+                } else if (!bullet.isFormTankA() && bullet.getBounds().intersects(tankA.getBounds())) {
+                    gameOver = true;
+                    winner = "TankB";
                     bullet.setActive(false);
-                    ////////showGameOver
+                    showGameOver();
                 }
             }
         }
@@ -165,21 +165,28 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
-    private void showGameOver(){
-        SwingUtilities.invokeLater(()->{
-            int option =JOptionPane.showConfirmDialog(
-                    this,winner+"Wins!!!\nWANT PLAY AGAIN?","Game Over",JOptionPane.YES_NO_OPTION
+    private void showGameOver() {
+        SwingUtilities.invokeLater(() -> {
+            int option = JOptionPane.showConfirmDialog(
+                    this, winner + "Wins!!!\nWANT PLAY AGAIN?", "Game Over", JOptionPane.YES_NO_OPTION
             );
 
-            if(option==JOptionPane.YES_OPTION){
-                ////resetgame();
-            }else{
+            if (option == JOptionPane.YES_OPTION) {
+                resetGame();
+            } else {
                 System.exit(0);
             }
-
         });
-
     }
+
+    private void resetGame() {
+        tankA = generatePositionA(45, 35);
+        tankB = generatePositionB(45, 35);
+        winner = "";
+        gameOver = false;
+        bullets.clear();
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {//自动启用Swing双缓冲，避免闪烁
@@ -188,13 +195,32 @@ public class GamePanel extends JPanel implements KeyListener {
         map.paintMap(g2d);
         tankA.drawTankA(g2d);
         tankB.drawTankB(g2d);
+
+        //绘制所有子弹
+        for (Bullet bullet : bullets) {
+            bullet.draw(g2d);
+        }
+
         sPanel.drawTankPicture(g2d);
         g2d.dispose();//保证图形状态隔离
+    }
+
+    private Bullet createBullet(MoveObjects tank, boolean fromTankA) {
+        int tankHeadX = tank.getX() + tank.getWidth() / 2;
+        int tankHeadY = tank.getY() + tank.getHeight() / 2;
+        return new Bullet(tankHeadX, tankHeadY, tank.getDirection(), fromTankA);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         pressedKeys.add(e.getKeyCode());
+
+        //添加子弹发射功能
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+            bullets.add(createBullet(tankA,true));
+        } else if (e.getKeyCode() == KeyEvent.VK_SLASH) {
+            bullets.add(createBullet(tankB,false));
+        }
     }
 
     @Override

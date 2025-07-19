@@ -10,7 +10,7 @@ public class Bullet {
     private boolean formTankA;
     private boolean active =true;
 
-    public Bullet(int y, int x, int speed, int direction, boolean formTankA) {
+    public Bullet(int x, int y, int direction, boolean formTankA) {
         this.y = y;
         this.x = x;
         this.speed = 10;//子弹速度
@@ -24,13 +24,13 @@ public class Bullet {
                 x-=speed;
                 break;
             case 1:
-                y+=speed;
+                y-=speed;
                 break;
             case 2:
                 x+=speed;
                 break;
             case 3:
-                y-=speed;
+                y+=speed;
                 break;
         }
     }

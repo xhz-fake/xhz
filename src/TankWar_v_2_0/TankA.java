@@ -34,7 +34,7 @@ public class TankA extends MoveObjects {
         }
     }
 
-    public Rectangle getBounds(){
+    public Rectangle getBounds(){//获取边界方方法
         return new Rectangle(getX(),getY(),getWidth(),getHeight());
     }
 
