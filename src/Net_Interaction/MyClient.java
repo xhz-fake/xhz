@@ -2,6 +2,7 @@ package Net_Interaction;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class MyClient {
@@ -10,12 +11,12 @@ public class MyClient {
 
         try {
             //1. 创建客户端socket 并连接到服务器
-            Socket socket=new Socket("localHost",8881);
+            Socket socket=new Socket("localHost",8881);// 连接服务器
             System.out.println("已连接到服务器,可以开始聊天啦!");
             System.out.println("输入:bye 以结束聊天噢");
 
             //2. 创建输入输出流
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
             //3. 创建控制台输入
@@ -31,7 +32,7 @@ public class MyClient {
                             System.exit(0);
                         }
                         System.out.println("服务端说 : "+serverMessage);
-                        System.out.print("我(客户端)说: ");
+                        //System.out.print("我(客户端)说: ");
                     }
                 } catch (IOException e) {
                     System.out.println("连接已断开!");
@@ -40,7 +41,7 @@ public class MyClient {
 
             //5. 主线程:发送信息
             while(true){
-                System.out.println("我(客户端)说: ");
+                //System.out.println("我(客户端)说: ");
                 String message=scanner.nextLine();
                 out.println(message);
                 if(message.equalsIgnoreCase("bye")){
