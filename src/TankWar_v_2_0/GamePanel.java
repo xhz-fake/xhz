@@ -189,8 +189,9 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
 
     @Override
     protected void paintComponent(Graphics g) {//自动启用Swing双缓冲，避免闪烁
-        super.paintComponent(g);// 清空背景，清除前一帧画面
-        Graphics2D g2d = (Graphics2D) g.create();
+        super.paintComponent(g);// 清空背景，清除前一帧画面 确保每次绘制都是全新的画面，避免画面残留
+        //底层原理：默认会使用组件的背景色填充整个区域
+        Graphics2D g2d = (Graphics2D) g.create();//创建图形上下文副本
         map.paintMap(g2d);
         tankA.drawTankA(g2d);
         tankB.drawTankB(g2d);
