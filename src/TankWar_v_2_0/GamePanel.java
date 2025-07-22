@@ -49,8 +49,8 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         Rectangle tempRect;
         int x, y;
         do {
-            x = 50 + ran.nextInt(900);
-            y = 50 + ran.nextInt(700);
+            x = 120 + ran.nextInt(900);
+            y = 60 + ran.nextInt(750);
             tempRect = new Rectangle(x, y, width, height);
         } while (map.isCollidingWithWall(tempRect)); // 确保不生成在墙上
         return new TankA(x, y); // 或 TankB
@@ -61,14 +61,16 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         Rectangle tempRect;
         int x, y;
         do {
-            x = 50 + ran.nextInt(900);
-            y = 50 + ran.nextInt(700);
+            x = 120 + ran.nextInt(900);
+            y = 60 + ran.nextInt(750);
             tempRect = new Rectangle(x, y, width, height);
         } while (map.isCollidingWithWall(tempRect)); // 确保不生成在墙上
         return new TankB(x, y); // 或 TankB
     }
 
     private void processInput() {
+        // 游戏结束时忽略所有输入
+        if (gameOver) return;
         // 处理坦克A
         // 每次循环先重置速度
         tankA.setSpeedX(0);
@@ -165,6 +167,8 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
     }
 
     private void showGameOver() {
+        pressedKeys.clear();// 在显示对话框前清除按键状态
+
         SwingUtilities.invokeLater(() -> {
             int option = JOptionPane.showConfirmDialog(
                     this, winner + "  Wins!!!\nWANT PLAY AGAIN?", "--Game Over--", JOptionPane.YES_NO_OPTION
@@ -179,11 +183,14 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
     }
 
     private void resetGame() {
+        // 重置游戏前再次确保清除按键状态
+        pressedKeys.clear();
         tankA = generatePositionA(45, 35);
         tankB = generatePositionB(45, 35);
+        bullets.clear();
         winner = "";
         gameOver = false;
-        bullets.clear();
+        requestFocusInWindow();
     }
 
 
@@ -217,16 +224,19 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
 
         //添加子弹发射功能
         if (e.getKeyCode() == KeyEvent.VK_Q) {
-            bullets.add(createBullet(tankA,true));
+            bullets.add(createBullet(tankA, true));
         } else if (e.getKeyCode() == KeyEvent.VK_SLASH) {
-            bullets.add(createBullet(tankB,false));
+            bullets.add(createBullet(tankB, false));
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        pressedKeys.remove(e.getKeyCode());
-        // 处理平滑停止（可选）
+        if (gameOver) {
+            pressedKeys.clear();// 在显示对话框前清除按键状态
+        } else {
+            pressedKeys.remove(e.getKeyCode());
+        }// 处理平滑停止（可选）
         processInput();
     }
 

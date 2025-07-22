@@ -12,5 +12,4 @@ public class scorePanel extends JPanel {
         g2d.drawImage(imgPic[0].getImage(), 230, 830, 100, 60, null);
         g2d.drawImage(imgPic[1].getImage(), 830, 830, 100, 60, null);
     }
-
 }
