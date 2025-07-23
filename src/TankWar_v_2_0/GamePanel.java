@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
     private final Random ran = new Random();
     private final BattleMaps map;
     private final scorePanel sPanel;
-    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private final ArrayList<Bullet> bullets = new ArrayList<>();
     private boolean gameOver = false;
     private String winner = "";
 

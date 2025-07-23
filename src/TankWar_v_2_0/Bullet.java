@@ -4,10 +4,10 @@ import java.awt.*;
 
 public class Bullet {
     private int x,y;
-    private int speed;
-    private int direction;
-    private final int size=5;
-    private boolean formTankA;
+    private final int speed;
+    private final int direction;
+    private final int size=6;
+    private final boolean formTankA;
     private boolean active =true;
 
     public Bullet(int x, int y, int direction, boolean formTankA) {
