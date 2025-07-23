@@ -1,7 +1,7 @@
 package Net_Interaction;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -11,7 +11,7 @@ public class MyClient {
 
         try {
             //1. 创建客户端socket 并连接到服务器
-            Socket socket=new Socket("localHost",8881);// 连接服务器
+            Socket socket = new Socket("localHost", 8881);// 连接服务器
             System.out.println("已连接到服务器,可以开始聊天啦!");
             System.out.println("输入:bye 以结束聊天噢");
 
@@ -26,25 +26,31 @@ public class MyClient {
             new Thread(() -> {
                 try {
                     String serverMessage;
-                    while ((serverMessage = in.readLine())!= null) {
-                        if(serverMessage.equalsIgnoreCase("bye")){
+                    while ((serverMessage = in.readLine()) != null) {
+                        if (serverMessage.equalsIgnoreCase("bye")) {
                             System.out.println("服务器已退出聊天,聊天结束喽");
                             System.exit(0);
                         }
-                        System.out.println("服务端说 : "+serverMessage);
+                        System.out.println("服务端说 : " + serverMessage);
                         //System.out.print("我(客户端)说: ");
                     }
+                } catch (SocketTimeoutException e) {
+                    System.out.println("连接超时...");
+                } catch (ConnectException e) {
+                    System.out.println("连接拒绝...");
+                } catch (SocketException e) {
+                    System.out.println("连接意外断开...");
                 } catch (IOException e) {
-                    System.out.println("连接已断开!");
+                    System.out.println("I/O错误: " + e.getMessage());
                 }
             }).start();
 
             //5. 主线程:发送信息
-            while(true){
+            while (true) {
                 //System.out.println("我(客户端)说: ");
-                String message=scanner.nextLine();
+                String message = scanner.nextLine();
                 out.println(message);
-                if(message.equalsIgnoreCase("bye")){
+                if (message.equalsIgnoreCase("bye")) {
                     System.out.println("聊天结束了");
                     break;
                 }
