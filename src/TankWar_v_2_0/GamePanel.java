@@ -171,7 +171,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
 
         SwingUtilities.invokeLater(() -> {
             int option = JOptionPane.showConfirmDialog(
-                    this, winner + "  Wins!!!\nWANT PLAY AGAIN?", "--Game Over--", JOptionPane.YES_NO_OPTION
+                    this, "  " + winner + "   Wins!!!\n WANT PLAY AGAIN?", "--Game Over--", JOptionPane.YES_NO_OPTION
             );
 
             if (option == JOptionPane.YES_OPTION) {
@@ -213,8 +213,15 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
     }
 
     private Bullet createBullet(MoveObjects tank, boolean fromTankA) {
-        int tankHeadX = tank.getX() + tank.getWidth() / 2;
-        int tankHeadY = tank.getY() + tank.getHeight() / 2;
+        int tankHeadX;
+        int tankHeadY;
+        if (tank.getDirection() == 0 || tank.getDirection() == 2) {
+            tankHeadX = tank.getX() + (tank.getWidth() / 2);
+            tankHeadY = tank.getY() + (tank.getHeight() / 2) - 2;
+        } else {
+            tankHeadX = tank.getX() + (tank.getHeight() / 2) - 2;
+            tankHeadY = tank.getY() + (tank.getWidth() / 2);
+        }
         return new Bullet(tankHeadX, tankHeadY, tank.getDirection(), fromTankA);
     }
 

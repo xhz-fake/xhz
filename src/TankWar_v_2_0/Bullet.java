@@ -3,12 +3,12 @@ package TankWar_v_2_0;
 import java.awt.*;
 
 public class Bullet {
-    private int x,y;
+    private int x, y;
     private final int speed;
     private final int direction;
-    private final int size=6;
+    private final int size = 6;
     private final boolean formTankA;
-    private boolean active =true;
+    private boolean active = true;
 
     public Bullet(int x, int y, int direction, boolean formTankA) {
         this.y = y;
@@ -18,43 +18,43 @@ public class Bullet {
         this.formTankA = formTankA;
     }
 
-    public void move(){
-        switch(direction){
+    public void move() {
+        switch (direction) {
             case 0:
-                x-=speed;
+                x -= speed;
                 break;
             case 1:
-                y-=speed;
+                y -= speed;
                 break;
             case 2:
-                x+=speed;
+                x += speed;
                 break;
             case 3:
-                y+=speed;
+                y += speed;
                 break;
         }
     }
 
-    public void draw(Graphics2D g2d){
-        if(active){
+    public void draw(Graphics2D g2d) {
+        if (active) {
             g2d.setColor(Color.black);
-            g2d.fillOval(x,y,size,size);
+            g2d.fillOval(x, y, size, size);
         }
     }
 
-    public Rectangle getBounds(){
-        return new Rectangle(x,y,size,size);
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, size, size);
     }
 
-    public  boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active){
-        this.active=active;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public boolean isFormTankA(){
+    public boolean isFormTankA() {
         return formTankA;
     }
 
