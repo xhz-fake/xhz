@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         gameTimer = new Timer(7, e -> {
             processInput();// 处理输入
             updateGame();// 更新游戏状态
-            repaint(); // 请求重绘
+            SwingUtilities.invokeLater(this::repaint);// 请求重绘
         });
         gameTimer.start();
 
