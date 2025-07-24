@@ -157,8 +157,13 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         // 获取移动后的碰撞区域
         Rectangle newBounds = tank.getBounds();
 
-        //检测是否会与墙体发射碰撞
+        //检测是否会与墙体/敌方坦克发生碰撞
         if (map.isCollidingWithWall(newBounds)) {//碰撞后回退位置并重置速度
+            tank.setX(oldX);
+            tank.setY(oldY);
+            tank.setSpeedX(0);
+            tank.setSpeedY(0);
+        } else if (tankA.getBounds().intersects(tankB.getBounds())) {
             tank.setX(oldX);
             tank.setY(oldY);
             tank.setSpeedX(0);

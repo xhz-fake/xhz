@@ -14,7 +14,6 @@ public class TankWar_UI {
 
         GamePanel gamePanel = new GamePanel();
         scorePanel scorePanel = new scorePanel();
-
         scorePanel.setBackground(Color.WHITE);
         gamePanel.setBackground(Color.WHITE);
         jf.add(scorePanel, BorderLayout.SOUTH);
