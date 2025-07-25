@@ -68,6 +68,32 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         return new TankB(x, y); // 或 TankB
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        pressedKeys.add(e.getKeyCode());
+
+        //添加子弹发射功能
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+            bullets.add(createBullet(tankA, true));
+        } else if (e.getKeyCode() == KeyEvent.VK_SLASH) {
+            bullets.add(createBullet(tankB, false));
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (gameOver) {
+            pressedKeys.clear();// 在显示对话框前清除按键状态
+        } else {
+            pressedKeys.remove(e.getKeyCode());
+        }// 处理平滑停止（可选）
+        processInput();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
     private void processInput() {
         // 游戏结束时忽略所有输入
         if (gameOver) return;
@@ -114,6 +140,60 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         }
     }
 
+    private void handleTankMovement(MoveObjects tank) {
+        //保存移动前的位置
+        int oldX = tank.getX();
+        int oldY = tank.getY();
+        //移动坦克
+        tank.move();
+        // 获取移动后的碰撞区域
+        Rectangle newBounds = tank.getBounds();
+
+        //检测是否会与墙体/敌方坦克发生碰撞
+        if (map.isCollidingWithWall(newBounds)) {//碰撞后回退位置并重置速度
+            tank.setX(oldX);
+            tank.setY(oldY);
+            tank.setSpeedX(0);
+            tank.setSpeedY(0);
+        } else if (tankA.getBounds().intersects(tankB.getBounds())) {
+            tank.setX(oldX);
+            tank.setY(oldY);
+            tank.setSpeedX(0);
+            tank.setSpeedY(0);
+        }
+    }
+
+    private Bullet createBullet(MoveObjects tank, boolean fromTankA) {
+        int tankHeadX;
+        int tankHeadY;
+        if (tank.getDirection() == 0 || tank.getDirection() == 2) {
+            tankHeadX = tank.getX() + (tank.getWidth() / 2);
+            tankHeadY = tank.getY() + (tank.getHeight() / 2) - 2;
+        } else {
+            tankHeadX = tank.getX() + (tank.getHeight() / 2) - 2;
+            tankHeadY = tank.getY() + (tank.getWidth() / 2);
+        }
+        return new Bullet(tankHeadX, tankHeadY, tank.getDirection(), fromTankA);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {//自动启用Swing双缓冲，避免闪烁
+        super.paintComponent(g);// 清空背景，清除前一帧画面 确保每次绘制都是全新的画面，避免画面残留
+        //底层原理：默认会使用组件的背景色填充整个区域
+        Graphics2D g2d = (Graphics2D) g.create();//创建图形上下文副本
+        map.paintMap(g2d);
+        tankA.drawTankA(g2d);
+        tankB.drawTankB(g2d);
+
+        //绘制所有子弹
+        for (Bullet bullet : bullets) {
+            bullet.draw(g2d);
+        }
+
+        sPanel.drawTankPicture(g2d);
+        g2d.dispose();//保证图形状态隔离
+    }
+
     private void updateGame() {
         if (gameOver) {
             return;
@@ -148,27 +228,15 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         bullets.removeIf(bullet -> !bullet.isActive());//移除不活跃的子弹
     }
 
-    private void handleTankMovement(MoveObjects tank) {
-        //保存移动前的位置
-        int oldX = tank.getX();
-        int oldY = tank.getY();
-        //移动坦克
-        tank.move();
-        // 获取移动后的碰撞区域
-        Rectangle newBounds = tank.getBounds();
-
-        //检测是否会与墙体/敌方坦克发生碰撞
-        if (map.isCollidingWithWall(newBounds)) {//碰撞后回退位置并重置速度
-            tank.setX(oldX);
-            tank.setY(oldY);
-            tank.setSpeedX(0);
-            tank.setSpeedY(0);
-        } else if (tankA.getBounds().intersects(tankB.getBounds())) {
-            tank.setX(oldX);
-            tank.setY(oldY);
-            tank.setSpeedX(0);
-            tank.setSpeedY(0);
-        }
+    private void resetGame() {
+        // 重置游戏前再次确保清除按键状态
+        pressedKeys.clear();
+        tankA = generatePositionA(45, 35);
+        tankB = generatePositionB(45, 35);
+        bullets.clear();
+        winner = "";
+        gameOver = false;
+        requestFocusInWindow();
     }
 
     private void showGameOver() {
@@ -186,75 +254,6 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
             }
         });
     }
-
-    private void resetGame() {
-        // 重置游戏前再次确保清除按键状态
-        pressedKeys.clear();
-        tankA = generatePositionA(45, 35);
-        tankB = generatePositionB(45, 35);
-        bullets.clear();
-        winner = "";
-        gameOver = false;
-        requestFocusInWindow();
-    }
-
-
-    @Override
-    protected void paintComponent(Graphics g) {//自动启用Swing双缓冲，避免闪烁
-        super.paintComponent(g);// 清空背景，清除前一帧画面 确保每次绘制都是全新的画面，避免画面残留
-        //底层原理：默认会使用组件的背景色填充整个区域
-        Graphics2D g2d = (Graphics2D) g.create();//创建图形上下文副本
-        map.paintMap(g2d);
-        tankA.drawTankA(g2d);
-        tankB.drawTankB(g2d);
-
-        //绘制所有子弹
-        for (Bullet bullet : bullets) {
-            bullet.draw(g2d);
-        }
-
-        sPanel.drawTankPicture(g2d);
-        g2d.dispose();//保证图形状态隔离
-    }
-
-    private Bullet createBullet(MoveObjects tank, boolean fromTankA) {
-        int tankHeadX;
-        int tankHeadY;
-        if (tank.getDirection() == 0 || tank.getDirection() == 2) {
-            tankHeadX = tank.getX() + (tank.getWidth() / 2);
-            tankHeadY = tank.getY() + (tank.getHeight() / 2) - 2;
-        } else {
-            tankHeadX = tank.getX() + (tank.getHeight() / 2) - 2;
-            tankHeadY = tank.getY() + (tank.getWidth() / 2);
-        }
-        return new Bullet(tankHeadX, tankHeadY, tank.getDirection(), fromTankA);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        pressedKeys.add(e.getKeyCode());
-
-        //添加子弹发射功能
-        if (e.getKeyCode() == KeyEvent.VK_Q) {
-            bullets.add(createBullet(tankA, true));
-        } else if (e.getKeyCode() == KeyEvent.VK_SLASH) {
-            bullets.add(createBullet(tankB, false));
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (gameOver) {
-            pressedKeys.clear();// 在显示对话框前清除按键状态
-        } else {
-            pressedKeys.remove(e.getKeyCode());
-        }// 处理平滑停止（可选）
-        processInput();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
 }
 /*
 
@@ -270,19 +269,4 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
 （3）Swing使用被动绘制机制，应重写paintComponent()方法getGraphics()获取的是临
 时图形上下文，无法持久化
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
