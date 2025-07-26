@@ -71,7 +71,7 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
 
     //将元素增添到末尾
     public boolean add(E element) {
-        ensureCapacity(size+1);//优先扩展容量
+        ensureCapacity(size + 1);//优先扩展容量
         elements[size++] = element;
         return true;
     }
@@ -112,7 +112,20 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
         if (numMoved > 0) {
             System.arraycopy(elements, index + 1, elements, index, numMoved);
         }
+        //清空最后一个位置
+        elements[--size]=null;
         return oldValue;
+    }
+
+    //删除指定元素
+    public boolean remove(Object o){
+        for(int i=0;i<size;i++){
+            if((o == null && elements[i] == null) || (o != null && o.equals(elements[i]))){
+                remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     //清空整个列表
@@ -138,18 +151,13 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
         return -1;
     }
 
-//    转化为数组
-//    public Object[] toArray(){
-//        return Arrays.copyOf(elements, size);
-//    }
-
     //转换为指定类型的数组
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         if (a.length < size) {//如果传入数组长度小于集合大小使用 Arrays.copyOf() 创建新数组
             return (T[]) Arrays.copyOf(elements, size, a.getClass());//新数组类型：a.getClass() 获取传入数组的运行时类型新数组大小：size（集合当前元素数量）
         }
-        System.arraycopy(elements,0,a,0,size);// 处理数组长度足够的情况: 使用高效的原生数组复制方法
+        System.arraycopy(elements, 0, a, 0, size);// 处理数组长度足够的情况: 使用高效的原生数组复制方法
 
 /*
         elements：源数组（集合内部存储）
@@ -158,11 +166,186 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
         0：目标数组起始位置
         size：要复制的元素数量
 */
-        if(a.length>size){//处理多余空间的情况
-            a[size]=null;//设置终止标记: 在集合元素之后设置 null
+        if (a.length > size) {//处理多余空间的情况
+            a[size] = null;//设置终止标记: 在集合元素之后设置 null
         }
         return a;
     }
+
+    //如果元素是整数型或浮点数型则快速排序
+    @SuppressWarnings("unchecked")
+    public void sort() {
+        if (elements[0] != null && elements[0].getClass() == Integer.class) {
+            int[] arr = new int[size];
+            for (int i = 0; i < size; i++) {
+                int num = (int) elements[i];
+                arr[i] = num;
+            }
+            intSort(arr);
+            for (int i = 0; i < size; i++) {
+                elements[i]=arr[i];
+            }
+        } else if (elements[0] != null && elements[0].getClass() == Float.class) {
+            float[] arr = new float[size];
+            for (int i = 0; i < size; i++) {
+                float num = (float) elements[i];
+                arr[i] = num;
+            }
+            floatSort(arr);
+            for (int i = 0; i < size; i++) {
+                elements[i]=arr[i];
+            }
+        } else if (elements[0] != null && elements[0].getClass() == Double.class) {
+            double[] arr = new double[size];
+            for (int i = 0; i < size; i++) {
+                double num = (double) elements[i];
+                arr[i] = num;
+            }
+            doubleSort(arr);
+            for (int i = 0; i < size; i++) {
+                elements[i]=arr[i];
+            }
+        }
+    }
+
+    //整数快排法
+    public static void intSort(int[] arr) {
+        if (arr == null || arr.length <= 1) {
+            return; // 如果数组为空或长度<=1，无需排序
+        }
+        intquickSort(arr, 0, arr.length - 1); // 调用递归排序
+    }
+
+    private static void intquickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIndex = intPartition(arr, low, high); // 获取基准值的正确位置
+            intquickSort(arr, low, pivotIndex - 1);  // 递归排序左子数组
+            intquickSort(arr, pivotIndex + 1, high); // 递归排序右子数组
+        }
+    }
+
+    private static int intPartition(int[] arr, int low, int high) {
+        int pivot = arr[high]; // 选择最后一个元素作为基准（pivot）
+        int i = low - 1;      // i 是小于 pivot 的元素的边界
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                intSwap(arr, i, j); // 交换 arr[i] 和 arr[j]
+            }
+        }
+        intSwap(arr, i + 1, high); // 将 pivot 放到正确的位置
+        return i + 1; // 返回 pivot 的索引
+    }
+
+    private static void intSwap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    //小浮点数快排法
+    public static void floatSort(float[] arr) {
+        if (arr == null || arr.length <= 1) {
+            return; // 如果数组为空或长度<=1，无需排序
+        }
+        floatquickSort(arr, 0, arr.length - 1); // 调用递归排序
+    }
+
+    private static void floatquickSort(float[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIndex = floatPartition(arr, low, high); // 获取基准值的正确位置
+            floatquickSort(arr, low, pivotIndex - 1);  // 递归排序左子数组
+            floatquickSort(arr, pivotIndex + 1, high); // 递归排序右子数组
+        }
+    }
+
+    private static int floatPartition(float[] arr, int low, int high) {
+        float pivot = arr[high]; // 选择最后一个元素作为基准（pivot）
+        int i = low - 1;      // i 是小于 pivot 的元素的边界
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                floatSwap(arr, i, j); // 交换 arr[i] 和 arr[j]
+            }
+        }
+        floatSwap(arr, i + 1, high); // 将 pivot 放到正确的位置
+        return i + 1; // 返回 pivot 的索引
+    }
+
+    private static void floatSwap(float[] arr, int i, int j) {
+        float temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    //大浮点数快排法
+    public static void doubleSort(double[] arr) {
+        if (arr == null || arr.length <= 1) {
+            return; // 如果数组为空或长度<=1，无需排序
+        }
+        doublequickSort(arr, 0, arr.length - 1); // 调用递归排序
+    }
+
+    private static void doublequickSort(double[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIndex = doublePartition(arr, low, high); // 获取基准值的正确位置
+            doublequickSort(arr, low, pivotIndex - 1);  // 递归排序左子数组
+            doublequickSort(arr, pivotIndex + 1, high); // 递归排序右子数组
+        }
+    }
+
+    private static int doublePartition(double[] arr, int low, int high) {
+        double pivot = arr[high]; // 选择最后一个元素作为基准（pivot）
+        int i = low - 1;      // i 是小于 pivot 的元素的边界
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                doubleSwap(arr, i, j); // 交换 arr[i] 和 arr[j]
+            }
+        }
+        doubleSwap(arr, i + 1, high); // 将 pivot 放到正确的位置
+        return i + 1; // 返回 pivot 的索引
+    }
+
+    private static void doubleSwap(double[] arr, int i, int j) {
+        double temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    //反转列表
+    public void reverse(){
+        for(int i=0;i<size/2;i++){
+            Object temp;
+            temp=elements[i];
+            elements[i]=elements[size-1-i];
+            elements[size-1-i]=temp;
+        }
+    }
+
+    //toString方法
+    public String toString(){
+        if(size==0){
+            return "}";
+        }
+        StringBuilder sb=new StringBuilder();
+        sb.append("{");
+        for(int i=0;i<size;i++){
+            Object e=elements[i];
+            sb.append(e==this?"(this collection)":e);
+            if(i<size-1){
+                sb.append(", ");
+            }
+        }
+        return sb.append("}").toString();
+    }
+
+
+
+
 
     @Override
     public Iterator<E> iterator() {

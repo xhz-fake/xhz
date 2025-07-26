@@ -1,4 +1,4 @@
-package TankWar_v_1_0;
+package TankWar_v_1;
 
 import javax.swing.*;
 import java.awt.*;

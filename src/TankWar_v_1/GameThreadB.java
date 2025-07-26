@@ -1,13 +1,13 @@
-package TankWar_v_1_0;
+package TankWar_v_1;
 
 import java.awt.*;
 
-public class GameThreadA implements Runnable{
-    private final TankA tankA;
+public class GameThreadB implements Runnable{
+    private final TankB tankB;
     private final Graphics2D g2d;
 
-    public GameThreadA(TankA tankA,Graphics2D g2d){
-        this.tankA=tankA;
+    public GameThreadB(TankB tankB,Graphics2D g2d){
+        this.tankB=tankB;
         this.g2d=g2d;
     }
     @Override
@@ -18,7 +18,7 @@ public class GameThreadA implements Runnable{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            tankA.drawTankA(g2d);
+            tankB.drawTankB(g2d);
         }
     }
 }

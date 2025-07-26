@@ -1,4 +1,6 @@
-package TankWar_v_1_0;
+package TankWar_v_2;
+
+import java.awt.*;
 
 public class MoveObjects {
     private int width;
@@ -16,6 +18,10 @@ public class MoveObjects {
     public void move() {
         x += speedX;
         y += speedY;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
     }
 
     public int getX() {

@@ -1,4 +1,4 @@
-package TankWar_v_2_0;
+package TankWar_v_2;
 
 import java.awt.*;
 
