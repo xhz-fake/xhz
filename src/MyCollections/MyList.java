@@ -113,14 +113,14 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
             System.arraycopy(elements, index + 1, elements, index, numMoved);
         }
         //清空最后一个位置
-        elements[--size]=null;
+        elements[--size] = null;
         return oldValue;
     }
 
     //删除指定元素
-    public boolean remove(Object o){
-        for(int i=0;i<size;i++){
-            if((o == null && elements[i] == null) || (o != null && o.equals(elements[i]))){
+    public boolean remove(Object o) {
+        for (int i = 0; i < size; i++) {
+            if ((o == null && elements[i] == null) || (o != null && o.equals(elements[i]))) {
                 remove(i);
                 return true;
             }
@@ -183,7 +183,7 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
             }
             intSort(arr);
             for (int i = 0; i < size; i++) {
-                elements[i]=arr[i];
+                elements[i] = arr[i];
             }
         } else if (elements[0] != null && elements[0].getClass() == Float.class) {
             float[] arr = new float[size];
@@ -193,7 +193,7 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
             }
             floatSort(arr);
             for (int i = 0; i < size; i++) {
-                elements[i]=arr[i];
+                elements[i] = arr[i];
             }
         } else if (elements[0] != null && elements[0].getClass() == Double.class) {
             double[] arr = new double[size];
@@ -203,7 +203,7 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
             }
             doubleSort(arr);
             for (int i = 0; i < size; i++) {
-                elements[i]=arr[i];
+                elements[i] = arr[i];
             }
         }
     }
@@ -317,34 +317,44 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
     }
 
     //反转列表
-    public void reverse(){
-        for(int i=0;i<size/2;i++){
+    public void reverse() {
+        for (int i = 0; i < size / 2; i++) {
             Object temp;
-            temp=elements[i];
-            elements[i]=elements[size-1-i];
-            elements[size-1-i]=temp;
+            temp = elements[i];
+            elements[i] = elements[size - 1 - i];
+            elements[size - 1 - i] = temp;
         }
     }
 
     //toString方法
-    public String toString(){
-        if(size==0){
+    public String toString() {
+        if (size == 0) {
             return "}";
         }
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
-        for(int i=0;i<size;i++){
-            Object e=elements[i];
-            sb.append(e==this?"(this collection)":e);
-            if(i<size-1){
+        for (int i = 0; i < size; i++) {
+            Object e = elements[i];
+            sb.append(e == this ? "(this collection)" : e);
+            if (i < size - 1) {
                 sb.append(", ");
             }
         }
         return sb.append("}").toString();
     }
 
-
-
+    public Object[] cloneArray(E[] objs, CloneTools<E> ct) {
+        int size = objs.length;
+        Object[] newObjs = new Object[size];
+        for (int i = 0; i < size; i++) {
+            E o = objs[i];
+            if (o != null) {
+                E newo = ct.cloneObject(o);
+                newObjs[i] = newo;
+            }
+        }
+        return newObjs;
+    }
 
 
     @Override
