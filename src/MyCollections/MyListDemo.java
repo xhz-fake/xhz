@@ -1,7 +1,7 @@
 package MyCollections;
 
 
-public class MyListDemo {
+public class MyListDemo implements Cloneable{
     public static void main(String[] args) {
         MyList<Integer> myList=new MyList<>();
         for(int i=20;i>0;i--){
@@ -53,8 +53,21 @@ public class MyListDemo {
         }
 
         System.out.println(myList);
-
+        Person[] t1={
+                new Person("小明",123),
+                new Person("鸽哥",1234)
+        };
+        Person[] t2=MyList.deepCopy(t1);
+        System.out.println(t2[0].getId()+t2[0].getName()+t2[1].getId()+t2[1].getName());
 
     }
 
+    @Override
+    public MyListDemo clone() {
+        try {
+            return (MyListDemo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

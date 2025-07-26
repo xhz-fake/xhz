@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  *    Bless the instance beyond will cultivate my programming expertises as well good habits.
  */
 
-public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持 foreach 循环
+public class MyList<E> implements Iterable<E>, Cloneable {//实现 Iterable 接口，支持 foreach 循环
     //定义默认的容器容量
     private static final int DEFAULT_CAPACITY = 10;
 
@@ -343,19 +343,28 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
         return sb.append("}").toString();
     }
 
-    public Object[] cloneArray(E[] objs, CloneTools<E> ct) {
-        int size = objs.length;
-        Object[] newObjs = new Object[size];
-        for (int i = 0; i < size; i++) {
-            E o = objs[i];
-            if (o != null) {
-                E newo = ct.cloneObject(o);
-                newObjs[i] = newo;
-            }
+    @SuppressWarnings("unchecked")
+    public static <T extends Cloneable> T[] deepCopy(T[] original) {
+        if (original == null) {
+            return null;
         }
-        return newObjs;
-    }
 
+        //创建一个同类型的数组
+        T[] copy = (T[]) java.lang.reflect.Array.newInstance(
+                original.getClass().getComponentType(), original.length
+        );
+        try {
+            for (int i = 0; i < original.length; i++) {
+                if (original[i] != null) {
+                    //调用每个元素的clone()方法
+                    copy[i] = (T) original[i].getClass().getMethod("clone").invoke(original[i]);
+                }
+            }
+            return copy;
+        } catch (Exception e) {
+            throw new RuntimeException("Deep copy failed", e);
+        }
+    }
 
     @Override
     public Iterator<E> iterator() {
@@ -370,5 +379,16 @@ public class MyList<E> implements Iterable<E> {//实现 Iterable 接口，支持
     @Override
     public Spliterator<E> spliterator() {
         return Iterable.super.spliterator();
+    }
+
+    @Override
+    public MyList<E> clone() {
+        try {
+            MyList clone = (MyList) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
