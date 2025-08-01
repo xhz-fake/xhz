@@ -2,8 +2,9 @@ package TankWar.TankWar_v_3;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class TankB extends MoveObjects {
+public class TankB extends MoveObjects implements Serializable {
     private final ImageIcon[] imgArr = new ImageIcon[4];
 
     public TankB(int x, int y) {

@@ -38,6 +38,10 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
     //聊天回馈
     private ChatCallback chatCallback;
 
+    public boolean isHost(){//////////////////////////////////////////////////////
+        return isHost;
+    }
+
     public GamePanel(boolean isHost, String serverIP) {
         this.isHost = isHost;
         this.serverIP = serverIP;
@@ -54,7 +58,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
 
         // 初始化游戏定时器（每16ms≈60FPS）
         //使用游戏循环（Timer）来定期处理按键状态，更新坦克位置。
-        gameTimer = new Timer(7, e -> {
+        gameTimer = new Timer(3, e -> {
             processInput();// 处理输入
             updateGame();// 更新游戏状态
             SwingUtilities.invokeLater(this::repaint);// 请求重绘
@@ -65,10 +69,6 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         addKeyListener(this);
     }
 
-    public boolean isHost(){//////////////////////////////////////////////////////
-        return isHost;
-    }
-
     public void setChatCallback(ChatCallback callback) {
         this.chatCallback = callback;
     }
@@ -77,14 +77,14 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
         try {
             if (isHost) {
                 //作为主机
-                serverSocket = new ServerSocket(12345);
+                serverSocket = new ServerSocket(8881);
                 System.out.println("等待客户端连接中...");
                 socket = serverSocket.accept();////
                 System.out.println("客户端已连接!");
             } else {
                 //作为客户端
                 System.out.println("正在连接服务器: " + serverIP);
-                socket = new Socket(serverIP, 12345);
+                socket = new Socket(serverIP, 8881);
                 System.out.println("已连接到服务器!");
             }
 
@@ -95,6 +95,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
             //启动网络线程
             networkThread = new Thread(this::receiveNetworkData);
             networkThread.start();
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "网络异常:  " + e.getMessage(),
                     "连接失败!", JOptionPane.ERROR_MESSAGE);
@@ -195,7 +196,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
             //发送子弹信息
             sendNetworkMessage(new NetworkMessage(MessageType.BULLET_UPDATE, bullet));
         } else if (e.getKeyCode() == KeyEvent.VK_SLASH) {
-            Bullet bullet = createBullet(tankA, false);
+            Bullet bullet = createBullet(tankB, false);
             bullets.add(bullet);
 
             //发送子弹信息
@@ -339,7 +340,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
             return;
         }
 
-        if (isHost) {//主机处理所有游戏逻辑
+        //if (isHost) {//主机处理所有游戏逻辑
             handleTankMovement(tankA);
             handleTankMovement(tankB);
 
@@ -357,7 +358,6 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
                         winner = "-TankA-";
                         bullet.setActive(false);
                         showGameOver();
-
                     } else if (!bullet.isFormTankA() && bullet.getBounds().intersects(tankA.getBounds())) {
                         gameOver = true;
                         winner = "-TankB-";
@@ -371,7 +371,7 @@ public class GamePanel extends JPanel implements KeyListener {//GamePanel类是�
             //发送完整的游戏状态给客户端
             sendNetworkMessage(new NetworkMessage(MessageType.GAME_STATE, new GameState(tankA, tankB, new ArrayList<>(bullets))));
 
-        }
+        //}
     }
 
     private void resetGame() {

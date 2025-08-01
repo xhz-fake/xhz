@@ -10,6 +10,5 @@ public class NetworkMessage implements Serializable {
         this.type = type;
         this.data = data;
     }
-    private static final long serialVersionUID = 1L;
 
 }

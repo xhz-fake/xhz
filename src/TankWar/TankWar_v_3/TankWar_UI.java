@@ -6,7 +6,7 @@ import java.awt.*;
 public class TankWar_UI {
     public void initUI() {
         JFrame jf = new JFrame();
-        jf.setSize(1400, 950);
+        jf.setSize(1400, 930);
         jf.setTitle("---Tank War (OnLine)---");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setResizable(false);

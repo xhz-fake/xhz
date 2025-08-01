@@ -1,8 +1,9 @@
 package TankWar.TankWar_v_3;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class MoveObjects {
+public class MoveObjects implements Serializable {
     private int width;
     private int height;
     private int speedX;

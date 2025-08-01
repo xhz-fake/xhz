@@ -10,9 +10,8 @@ public class GameState implements Serializable {//Serializable 是一个“空�
 
     public GameState(TankA tankA, TankB tankB, ArrayList<Bullet>bullets) {
         this.tankA = tankA;
-        this.bullets = bullets;
         this.tankB = tankB;
+        this.bullets = bullets;
     }
 
-    private static final long serialVersionUID = 1L;
 }
