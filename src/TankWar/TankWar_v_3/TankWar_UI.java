@@ -11,7 +11,6 @@ public class TankWar_UI {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setResizable(false);
         jf.setLocationRelativeTo(null);
-
         //网络设置对话框
         NetworkSetupDialog setupDialog = new NetworkSetupDialog(jf);
         setupDialog.setVisible(true);
