@@ -129,7 +129,7 @@ public class ImageProUI {//本类主要负责基本框架UI界面的展示
     }
 
     public void initBtnPanel(JPanel btnPanel) {//初始化按钮面板
-        String[] btnTexts = {"打开", "原图", "保存","左旋", "右旋",  "马赛克", "灰度", "油画", "轮廓"};
+        String[] btnTexts = {"打开", "原图", "保存", "左旋", "右旋", "马赛克", "灰度", "油画", "轮廓"};
         for (String btnText : btnTexts) {//增强的for循环遍历每个按钮
             JButton btn = new JButton(btnText);
             btn.setBackground(Color.white);
