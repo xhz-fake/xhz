@@ -14,7 +14,7 @@ public class TankA extends MoveObjects implements Serializable {
         setDirection(1);
 
         for (int i = 0; i < 4; i++) {
-            imgArr[i] = new ImageIcon("Photo\\TankA" + i + ".png");
+            imgArr[i] = new ImageIcon("D:\\桌面\\Xing\\Photos\\TankA" + i + ".png");
         }
     }
 
@@ -37,15 +37,6 @@ public class TankA extends MoveObjects implements Serializable {
 
     public Rectangle getBounds() {//获取边界方方法
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
-    }
-
-    public void copyFrom(TankA source) {
-        if (source == null) {
-            return;
-        }
-        this.setX(source.getX());
-        this.setY(source.getY());
-        this.setDirection(source.getDirection());
     }
 
 }

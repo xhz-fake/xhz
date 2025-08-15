@@ -14,7 +14,7 @@ public class TankB extends MoveObjects implements Serializable {
         setDirection(1);
 
         for (int i = 0; i < 4; i++) {
-            imgArr[i] = new ImageIcon("Photo\\TankB" + i + ".png");
+            imgArr[i] = new ImageIcon("D:\\桌面\\Xing\\Photos\\TankB" + i + ".png");
         }
     }
 
@@ -39,12 +39,4 @@ public class TankB extends MoveObjects implements Serializable {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
-    public void copyFrom(TankB source) {
-        if (source == null) {
-            return;
-        }
-        this.setX(source.getX());
-        this.setY(source.getY());
-        this.setDirection(source.getDirection());
-    }
 }
