@@ -3,13 +3,18 @@ package TankWar.TankWar_v_4;
 import java.awt.*;
 import java.io.Serializable;
 
-public class MoveObjects implements Serializable {
+public class MoveObjects implements Serializable {//标准的Java Bean: 1. 实现序列化接口
+    // 2. 私有化属性
     private int width;
     private int height;
     private int speedX;
     private int speedY;
     private int x, y;
     private int direction;
+
+    // 3. 公共的无参构造器
+    public MoveObjects() {
+    }
 
     public MoveObjects(int x, int y) {
         this.x = x;
@@ -25,6 +30,7 @@ public class MoveObjects implements Serializable {
         return new Rectangle(x, y, width, height);
     }
 
+    // 4. get & set方法
     public int getX() {
         return x;
     }
@@ -47,6 +53,14 @@ public class MoveObjects implements Serializable {
 
     public void setSpeedY(int speedY) {
         this.speedY = speedY;
+    }
+
+    public int getSpeedX() {
+        return speedX;
+    }
+
+    public int getSpeedY() {
+        return speedY;
     }
 
     public void setWidth(int width) {
@@ -72,13 +86,4 @@ public class MoveObjects implements Serializable {
     public void setDirection(int direction) {
         this.direction = direction;
     }
-
-    public int getSpeedY() {
-        return speedY;
-    }
-
-    public int getSpeedX() {
-        return speedX;
-    }
-
 }

@@ -92,11 +92,9 @@ public class GamePanel extends JPanel implements KeyListener, Serializable {//Ga
         }
     }
 
-    private static class NetworkResetSignal implements Serializable {
-    }//网络重置信号
+    private static class NetworkResetSignal implements Serializable {}//网络重置信号
 
-    private static class GameStateReset implements Serializable {
-    }//游戏状态重置信号
+    private static class GameStateReset implements Serializable {}//游戏状态重置信号
 
     public GamePanel(boolean isHost, String serverIP) {
         this.isHost = isHost;
@@ -104,7 +102,6 @@ public class GamePanel extends JPanel implements KeyListener, Serializable {//Ga
 
         map = new BattleMaps();
         sPanel = new ScorePanel();
-
         //初始化网络
         initNetwork();//包含了实时接收信息的线程
 
@@ -126,7 +123,7 @@ public class GamePanel extends JPanel implements KeyListener, Serializable {//Ga
 
 
         //使用游戏循环（Timer）来定期处理按键状态，更新坦克位置。
-        gameTimer = new Timer(13, e -> { // 初始化游戏定时器（每16ms≈60FPS）,定期处理游戏逻辑
+        gameTimer = new Timer(13, e -> { // 初始化游戏定时器（每13ms≈77FPS）,定期处理游戏逻辑
             if (gameOver) {
                 try {
                     out.flush();
@@ -213,7 +210,7 @@ public class GamePanel extends JPanel implements KeyListener, Serializable {//Ga
                 //作为主机
                 serverSocket = new ServerSocket(8881);
                 System.out.println("等待客户端连接中...");
-                socket = serverSocket.accept();////
+                socket = serverSocket.accept();//阻塞等待并接受客户端的连接请求,建立连接后返回一个新的 Socket 对象
                 System.out.println("客户端已连接!");
 
                 out = new ObjectOutputStream(socket.getOutputStream());
@@ -291,7 +288,7 @@ public class GamePanel extends JPanel implements KeyListener, Serializable {//Ga
                             handleNetworkMessage((NetworkMessage) obj);
                         }
                     } else {
-                        if (obj instanceof GameState state) {
+                        if (obj instanceof GameState state) {//客户端处理游戏主体属性
                             state.apply(this);
                         }else if (obj instanceof NetworkMessage) {//处理网络消息
                             handleNetworkMessage((NetworkMessage) obj);
