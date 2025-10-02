@@ -7,12 +7,10 @@ public class pra250410_gcd {
         int ans=gcd(996,696);
         System.out.println(ans);
 
-
         BigInteger am=BigInteger.valueOf(996);
         BigInteger bm=BigInteger.valueOf(696);
         BigInteger res=bm.gcd(am);
         System.out.println(res);
-
 
     }
 
