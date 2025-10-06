@@ -11,7 +11,7 @@ public class Demo06_GetConstructor {
         Constructor<Person> constructor = aClass.getConstructor(String.class,Integer.class);
         System.out.println(constructor);
 
-        //创建对象, 类似于Person person =  new Person("三上",26);
+        //创建对象, 类似于Person Person =  new Person("三上",26);
         Person person = constructor.newInstance("三上",26);
         System.out.println(person);
 

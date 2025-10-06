@@ -6,7 +6,7 @@ import java.util.Properties;
 public class Demo02_GetClass {
     public static void main(String[] args) throws Exception {
         Properties properties = new Properties();
-        FileInputStream in = new FileInputStream("pro.properties");
+        FileInputStream in = new FileInputStream("src\\pro.properties");
         properties.load(in);
 
         String className = properties.getProperty("className");

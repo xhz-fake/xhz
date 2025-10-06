@@ -1,7 +1,5 @@
 package Reflection;
 
-import javax.xml.namespace.QName;
-
 public class Person {
     private String name;
     private Integer age;
@@ -17,6 +15,7 @@ public class Person {
     private Person (String name){
         this.name= name;
     }
+
     public String getName() {
         return name;
     }
@@ -39,5 +38,8 @@ public class Person {
                 "name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+    private void eat(){
+        System.out.println("食");
     }
 }
